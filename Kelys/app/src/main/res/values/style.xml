@@ -35,8 +35,8 @@
 
     <style name="MyDatePickerDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/Theme.MaterialComponents.Light.Dialog.MinWidth</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/Theme.MaterialComponents.Light.Dialog.MinWidth</item>
+        <item name="android:buttonBarPositiveButtonStyle">@color/colorDatePicker</item>
+        <item name="android:buttonBarNegativeButtonStyle">@color/colorDatePicker</item>
     </style>
 
 
