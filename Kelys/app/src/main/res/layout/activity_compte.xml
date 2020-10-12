@@ -318,7 +318,7 @@
                                   android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:textAlignment="center"
-                                  android:text="Accepter"
+                                  android:text="Accepté"
                                   android:gravity="center_horizontal"/>
 
                           </LinearLayout>

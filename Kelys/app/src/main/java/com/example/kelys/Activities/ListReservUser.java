@@ -47,6 +47,8 @@ public class ListReservUser extends AppCompatActivity implements NavigationView.
     RecyclerView.LayoutManager layoutManager;
     private ProgressDialog loadingBar;
 
+    private TextView lbl_reservation;
+
     String statut = "";
 
 
@@ -63,6 +65,7 @@ public class ListReservUser extends AppCompatActivity implements NavigationView.
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,18 @@ public class ListReservUser extends AppCompatActivity implements NavigationView.
 
         // status
         statut = getIntent().getStringExtra("statut");
+
+        // description
+        lbl_reservation = (TextView) findViewById(R.id.lbl_reservation);
+        if (statut.equals("En attente"))
+        {
+            lbl_reservation.setText("Réservations en attente");
+        }
+
+        else if (statut.equals("Validé"))
+        {
+            lbl_reservation.setText("Réservations validées");
+        }
 
         //Log.d("statut", statut);
         query = orderRef.orderByChild("statut").equalTo(statut);

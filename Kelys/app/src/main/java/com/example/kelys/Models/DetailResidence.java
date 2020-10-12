@@ -32,11 +32,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -65,7 +68,7 @@ public class DetailResidence extends AppCompatActivity {
 
     String user_name, user_email, user_phoneNo;
 
-
+    Date currentmaxDate = Calendar.getInstance().getTime();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -323,6 +326,10 @@ public class DetailResidence extends AppCompatActivity {
         nDialogDate1 = (TextView) myDialog.findViewById(R.id.choose_date1);
         nDialogDate2 = (TextView) myDialog.findViewById(R.id.choose_date2);
 
+        // désactiver nDialogDate2
+        nDialogDate2.setEnabled(false);
+        nDialogDate2.setClickable(false);
+
         nDialogDate1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,15 +338,64 @@ public class DetailResidence extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(
                         DetailResidence.this,
-                        R.style.Theme_MaterialComponents_Light_Dialog_MinWidth,
+                        R.style.MyDatePickerDialogTheme,
                         onDateSetListener1,
                         year,month,day);
 
 
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+                /*
+                 * trouver la date maximum dans la BDD qui servira à définir le datepickerdialog
+                 * voir ci-dessus
+                 * */
+                final Query productRef = FirebaseDatabase.getInstance().getReference().child("Reservation Chambre").orderByChild("pid").equalTo(productPID);
+
+                productRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for (DataSnapshot sn : snapshot.getChildren())
+                        {
+
+                            Date tempDate = null;
+                            Log.d("date1", sn.child("date1").getValue(String.class));
+                            try {
+                                tempDate = new SimpleDateFormat("dd/MM/yyyy").parse(sn.child("date1").getValue(String.class));
+                                if( tempDate.getTime() >= currentmaxDate.getTime())
+                                {
+                                    currentmaxDate = tempDate;
+
+
+                                }
+
+                            } catch (ParseException e) {
+                                Log.e("error",e.getMessage());
+                            }
+
+
+                        }
+                        datePickerDialog.getDatePicker().setMinDate(currentmaxDate.getTime());
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+                /*
+                 * trouver la date maximum dans la BDD qui servira à définir le datepickerdialog
+                 * voir ci-dessous
+                 * */
                 datePickerDialog.show();
+
+
             }
         });
 
@@ -353,11 +409,19 @@ public class DetailResidence extends AppCompatActivity {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         DetailResidence.this,
-                        R.style.Theme_MaterialComponents_Light_Dialog_MinWidth,
+                        R.style.MyDatePickerDialogTheme,
                         onDateSetListener2,
                         year,month,day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                 datePickerDialog.show();
+                //datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                Date tempDate = null;
+                try {
+                    tempDate = new SimpleDateFormat("dd/MM/yyyy").parse(saveCurrentDate1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                datePickerDialog.getDatePicker().setMinDate(tempDate.getTime());
             }
         });
 
@@ -370,6 +434,10 @@ public class DetailResidence extends AppCompatActivity {
                 String date = dayOfMonth + "/" + month + "/" + year;
                 nDialogDate1.setText(date);
                 saveCurrentDate1 = date;
+
+                // activer ndialog2
+                nDialogDate2.setEnabled(true);
+                nDialogDate2.setClickable(true);
 
             }
         };

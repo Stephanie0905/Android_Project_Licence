@@ -16,7 +16,7 @@
         android:theme="@style/navigationTheme"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/menu_admin"/>
+        app:menu="@menu/main_menu"/>
 
     <LinearLayout
         android:id="@+id/content"
