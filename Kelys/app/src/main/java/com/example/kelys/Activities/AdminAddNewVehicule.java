@@ -148,6 +148,8 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
         Option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DefineOptionList();
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdminAddNewVehicule.this);
 
                 //string array for alert dialog multicheckbox item
@@ -202,6 +204,7 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                */
             }
         });
 
@@ -386,4 +389,106 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-}
+
+    private void DefineOptionList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminAddNewVehicule.this);
+
+
+        //string array for alert dialog multicheckbox item
+       //String[] optionArray = new String[]{"AutoRadio","Climatisation","Boite Manuelle","Boite Automatique","GPS","Ordinateur de Bord","Caméra de recul","Vitres Electriques"};
+
+
+        // get list of options in firebase
+        DatabaseReference optionRef = FirebaseDatabase.getInstance().getReference().child("Options_vehicule");
+        List<String> optionL = new ArrayList<>();
+        optionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren())
+                {
+                    optionL.add(sn.child("lib").getValue(String.class));
+                }
+
+                //optionList = Arrays.asList(optionArray);
+                optionChekedList = new ArrayList<String>();
+                builder.setTitle("Selectionne les options");
+
+
+                final boolean[] checkedoptionArray = new boolean[optionL.size()];
+
+
+                for (int i = 0; i < checkedoptionArray.length; i++)
+                {
+                    if (i == 0)
+                    {
+                        checkedoptionArray[i] = true;
+                    }
+
+                    else
+                    {
+                        checkedoptionArray[i] = false;
+                    }
+                }
+
+                //set multichoice
+                String[] optionArray = null;
+                optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        checkedoptionArray[which] = isChecked;
+
+                        String currentItem = optionL.get(which);
+                        // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        optionselected.setText("Vos choix sont: \n");
+                        for (int i = 0; i<checkedoptionArray.length; i++){
+                            boolean checked = checkedoptionArray[i];
+
+                            if (checked){
+                                // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                optionChekedList.add(optionL.get(i));
+                            }
+                        }
+                    }
+                });
+
+                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+       /* final boolean[] checkedoptionArray = new boolean[]{
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+        }; */
+
+
+    }
+
+    }

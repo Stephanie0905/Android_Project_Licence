@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class Compte extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     //variables
@@ -56,6 +59,8 @@ public class Compte extends AppCompatActivity implements NavigationView.OnNaviga
     SharedPreferences sharedPreferences;
     public static  final String fileName = "login";
     public static  final String UsernamePreference = "Username";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,10 @@ public class Compte extends AppCompatActivity implements NavigationView.OnNaviga
                 info_mobil_user.setText(snapshot.child(username).child("phoneNo").getValue(String.class));
                 info_mail_user.setText(snapshot.child(username).child("email").getValue(String.class));
 
+                nameFromDB = snapshot.child(username).child("name").getValue(String.class);
+                phoneNoFromDB = snapshot.child(username).child("phoneNo").getValue(String.class);
+                emailFromDB = snapshot.child(username).child("email").getValue(String.class);
+
             }
 
             @Override
@@ -185,6 +194,7 @@ public class Compte extends AppCompatActivity implements NavigationView.OnNaviga
             }
         });
 
+
     }
 
     private void navigationDrawer() {
@@ -237,6 +247,7 @@ public class Compte extends AppCompatActivity implements NavigationView.OnNaviga
 
 
     }
+
 
 
     @Override

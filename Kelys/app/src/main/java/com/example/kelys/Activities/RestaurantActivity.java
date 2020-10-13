@@ -108,7 +108,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 //données popup
                 final TextView txtclose;
                 final Button btnFollow;
-                myDialog.setContentView(R.layout.popup_room_reservation);
+                myDialog.setContentView(R.layout.popup_resto_reserv);
                 txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
                 //txtclose.setText("M");
                 btnFollow = (Button) myDialog.findViewById(R.id.btn_reserv);

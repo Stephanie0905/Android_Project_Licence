@@ -518,7 +518,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                     else{
-                        username.setError("No such Email Address exist Administrator");
+                        username.setError("No such Email Address exists");
                         username.requestFocus();
 
                     }

@@ -115,7 +115,7 @@ public class UserReservConsultActivity extends AppCompatActivity {
     {
         super.onBackPressed();
 
-        Intent intent = new Intent(getApplicationContext(), UserReservationActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ListReservUser.class);
         intent.putExtra("statut",statut);
         startActivity(intent);
     }

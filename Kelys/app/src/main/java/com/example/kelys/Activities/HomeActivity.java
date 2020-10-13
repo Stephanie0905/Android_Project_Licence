@@ -30,6 +30,11 @@ import com.example.kelys.Models.Restaurants;
 import com.example.kelys.Models.Vehicules;
 import com.example.kelys.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -317,6 +322,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         featuredLocations.add(new FeaturedHelperClass(R.drawable.resto_img,"Lounge Resto","hbfvhslk bvhldfkv,kghjldfksjv fhdjskhfcjk"));
         featuredLocations.add(new FeaturedHelperClass(R.drawable.ecologe,"Residence Ecologe","hbfvhslk bvhldfkv,kghjldfksjv fhdjskhfcjk"));
         featuredLocations.add(new FeaturedHelperClass(R.drawable.ecologe,"Hotel","hbfvhslk bvhldfkv,kghjldfksjv fhdjskhfcjk"));
+
+
 
         adapter = new FeaturedAdapter(featuredLocations);
         featuredRecycler.setAdapter(adapter);
