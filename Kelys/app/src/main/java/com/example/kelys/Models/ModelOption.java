@@ -13,7 +13,15 @@ public class ModelOption {
         this.options = options;
     }
 
+    public List<String> getOptions() {
+        return options;
+    }
 
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    /*
     public List<String> getOptions() {
         return  this.options;
     }
@@ -21,6 +29,8 @@ public class ModelOption {
     public void setOptions(List<String> newOptions) {
         this.options = newOptions;
     }
+
+    */
 
 
 }

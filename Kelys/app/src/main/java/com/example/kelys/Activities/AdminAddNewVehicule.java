@@ -68,8 +68,6 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // empecher le clavier de s'afficher
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         setContentView(R.layout.activity_admin_add_new_vehicule);
         CategoryName = getIntent().getExtras().get("Categorie").toString();
@@ -148,63 +146,10 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
         Option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // la fonction ci-dessous charge les options de véhicule définies dans FIREBASE
                 DefineOptionList();
-                /*
-                AlertDialog.Builder builder = new AlertDialog.Builder(AdminAddNewVehicule.this);
 
-                //string array for alert dialog multicheckbox item
-                String[] optionArray = new String[]{"AutoRadio","Climatisation","Boite Manuelle","Boite Automatique","GPS","Ordinateur de Bord","Caméra de recul","Vitres Electriques"};
-
-                final boolean[] checkedoptionArray = new boolean[]{
-                  true,
-                  false,
-                  false,
-                  false,
-                  false,
-                  false,
-                  false,
-                  false
-                };
-
-                optionList = Arrays.asList(optionArray);
-                optionChekedList = new ArrayList<String>();
-                builder.setTitle("Selectionne les options");
-
-                //set multichoice
-                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkedoptionArray[which] = isChecked;
-
-                        String currentItem = optionList.get(which);
-                       // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        optionselected.setText("Vos choix sont: \n");
-                        for (int i = 0; i<checkedoptionArray.length; i++){
-                            boolean checked = checkedoptionArray[i];
-
-                            if (checked){
-                               // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
-                                optionChekedList.add(optionList.get(i));
-                            }
-                        }
-                    }
-                });
-
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                */
             }
         });
 
@@ -312,7 +257,6 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
                         if (task.isSuccessful()){
                             downloadImageURI = task.getResult().toString();
 
-                           // Toast.makeText(AdminAddNewVehicule.this,"got the Product image Url to database is successfullly",Toast.LENGTH_SHORT).show();
 
                             SaveProductInfoToDatabase();
                         }
@@ -347,13 +291,7 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
         }
 
         productMap.put("options", OptionsMap);
-/*      List<String> listOptions = new ArrayList<String>();
-        listOptions.add("option 1");
-        listOptions.add("option 2");
-        listOptions.add("option 3");
 
-        productMap.put("options", new ModelOption(listOptions));
- */
 
         ProductsRef.child(productRandomKey).updateChildren(productMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -392,10 +330,6 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
 
     private void DefineOptionList() {
         AlertDialog.Builder builder = new AlertDialog.Builder(AdminAddNewVehicule.this);
-
-
-        //string array for alert dialog multicheckbox item
-       //String[] optionArray = new String[]{"AutoRadio","Climatisation","Boite Manuelle","Boite Automatique","GPS","Ordinateur de Bord","Caméra de recul","Vitres Electriques"};
 
 
         // get list of options in firebase
@@ -476,17 +410,6 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
         });
 
 
-
-       /* final boolean[] checkedoptionArray = new boolean[]{
-                true,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false
-        }; */
 
 
     }

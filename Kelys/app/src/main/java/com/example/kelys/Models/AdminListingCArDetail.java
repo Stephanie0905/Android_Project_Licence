@@ -8,9 +8,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,7 @@ public class AdminListingCArDetail extends AppCompatActivity {
     private Uri ImageUri;
     private ProgressDialog loadingBar;
     private String productRandomKey, downloadImageURI, oldCarName, oldDescription, oldPrice, oldCategorie, oldTypeCar,optionName ;
-    private int oldCarId,optionNameId;
+    private int oldCarId;
     ImageView imageView;
     Spinner spinner;
     private Query CarQuery;
@@ -136,27 +138,6 @@ public class AdminListingCArDetail extends AppCompatActivity {
                     textPrice.setText(modelvehicule.getPrice());
                     textDesc.setText(modelvehicule.getDescription());
                     Picasso.get().load(modelvehicule.getImage()).into(imageView);
-/*
-                    ModelOption modelOption =  d.child("options").getValue(ModelOption.class);
-                    List<String> listOptions = modelOption.getOptions();
-                    int compteurOption = 0;
-                    for (int i = 0; i < listOptions.size(); i++)
-                    {
-                        OptionList.add(listOptions.get(i));
-
-                        if (listOptions.get(i).equals(optionName)) {
-                            optionNameId = compteurOption;
-                        }
-
-                        compteurOption++;
-
-
-                    } */
-
-
-                    //OptionList.add(sn.child("lib").getValue(String.class));
-
-
 
 
                     downloadImageURI = modelvehicule.getImage();
@@ -224,60 +205,9 @@ public class AdminListingCArDetail extends AppCompatActivity {
         Option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AdminListingCArDetail.this);
 
-                //string array for alert dialog multicheckbox item
-                String[] optionArray = new String[]{"AutoRadio","Climatisation","Boite Manuelle","Boite Automatique","GPS","Ordinateur de Bord","Caméra de recul","Vitres Electriques"};
-
-                final boolean[] checkedoptionArray = new boolean[]{
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                };
-
-                optionList = Arrays.asList(optionArray);
-                optionChekedList = new ArrayList<String>();
-                builder.setTitle("Selectionne les options");
-
-                //set multichoice
-                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkedoptionArray[which] = isChecked;
-
-                        String currentItem = optionList.get(which);
-                        // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        optionselected.setText("Vos choix sont: \n");
-                        for (int i = 0; i<checkedoptionArray.length; i++){
-                            boolean checked = checkedoptionArray[i];
-
-                            if (checked){
-                                // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
-                                optionChekedList.add(optionList.get(i));
-                            }
-                        }
-                    }
-                });
-
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                // la fonction ci-dessous charge les options de véhicule définies dans FIREBASE
+                DefineOptionList();
             }
         });
 
@@ -372,6 +302,141 @@ public class AdminListingCArDetail extends AppCompatActivity {
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, GalleryPick);
+    }
+
+    private void DefineOptionList() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminListingCArDetail.this);
+
+
+        // get list of options in firebase
+        DatabaseReference optionRef = FirebaseDatabase.getInstance().getReference().child("Options_vehicule");
+        List<String> optionL = new ArrayList<>();
+        optionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren())
+                {
+                    optionL.add(sn.child("lib").getValue(String.class));
+                }
+
+                //optionList = Arrays.asList(optionArray);
+                optionChekedList = new ArrayList<String>();
+                builder.setTitle("Selectionne les options");
+
+
+                final boolean[] checkedoptionArray = new boolean[optionL.size()];
+
+                /*
+
+                for (int i = 0; i < checkedoptionArray.length; i++)
+                {
+                    if (i == 0)
+                    {
+                        checkedoptionArray[i] = true;
+                    }
+
+                    else
+                    {
+                        checkedoptionArray[i] = false;
+                    }
+                }
+
+                */
+
+                //set multichoice
+                String[] optionArray = null;
+                optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        checkedoptionArray[which] = isChecked;
+
+                        String currentItem = optionL.get(which);
+                        // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        optionselected.setText("Vos choix sont: \n");
+                        for (int i = 0; i<checkedoptionArray.length; i++){
+                            boolean checked = checkedoptionArray[i];
+
+                            if (checked){
+                                // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                optionChekedList.add(optionL.get(i));
+                            }
+                        }
+                    }
+                });
+
+                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+
+                // A REVOIR CI-DESOUS
+                /*
+                String[] finalOptionArray = optionArray;
+                String uid = getIntent().getStringExtra("uid");
+                Query CarQ = FirebaseDatabase.getInstance().getReference().child("Vehicule").orderByChild("pid").equalTo(uid);
+                CarQ.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                        for (DataSnapshot sn : snapshot.getChildren())
+                        {
+
+                            ModelOption opt =  sn.getValue(ModelOption.class);;
+
+                            //Log.d("nOM VEHICULE", String.valueOf(opt.getOptions()));
+
+                            for (int i = 0; i< opt.getOptions().size(); i++)
+                            {
+                                for (int j = 0; j < finalOptionArray.length; j++)
+                                {
+                                    if (opt.getOptions().get(i).equals(finalOptionArray[j]))
+                                    {
+                                        checkedoptionArray[j] = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                */
+                // A REVOIR CI-DESSUS
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+    }
+
+    private void getVehiculeOptions()
+    {
+
     }
 
 }
