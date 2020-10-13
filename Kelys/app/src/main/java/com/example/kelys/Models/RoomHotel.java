@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,12 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kelys.Activities.HomeActivity;
 import com.example.kelys.Adapters.RoomAdapter;
 import com.example.kelys.Helpers.ConfirmFinalOrderActivity;
 import com.example.kelys.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,13 +35,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class RoomHotel extends AppCompatActivity  {
@@ -59,7 +58,8 @@ public class RoomHotel extends AppCompatActivity  {
     Dialog myDialog;
 
     private TextView nDialogDate1,nDialogDate2;
-    private DatePickerDialog.OnDateSetListener onDateSetListener1, onDateSetListener2;
+    private DatePickerDialog.OnDateSetListener  onDateSetListener1, onDateSetListener2;
+
 
     String user_name, user_email, user_phoneNo;
 
@@ -197,6 +197,7 @@ public class RoomHotel extends AppCompatActivity  {
                 int year = calendar.get(Calendar.YEAR);
                 calendar.add(Calendar.YEAR, -2); // subtract 2 years from now
 
+
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(
                         RoomHotel.this,
                         R.style.MyDatePickerDialogTheme,
@@ -205,7 +206,9 @@ public class RoomHotel extends AppCompatActivity  {
 
 
 
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+
+                //datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
                //datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundColor(Color.rgb(16,1,100));
                // datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setBackgroundColor(Color.argb(140,16,1,100));
                // datePickerDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setBackgroundColor(Color.argb(140,16,1,100));
@@ -219,7 +222,7 @@ public class RoomHotel extends AppCompatActivity  {
                 productRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        /*
                         for (DataSnapshot sn : snapshot.getChildren())
                         {
 
@@ -240,7 +243,13 @@ public class RoomHotel extends AppCompatActivity  {
 
 
                         }
+
+                        */
                         datePickerDialog.getDatePicker().setMinDate(currentmaxDate.getTime());
+
+
+
+
 
                     }
 
@@ -256,6 +265,9 @@ public class RoomHotel extends AppCompatActivity  {
                  * trouver la date maximum dans la BDD qui servira à définir le datepickerdialog
                  * voir ci-dessous
                  * */
+
+
+
                 datePickerDialog.show();
 
 
@@ -294,6 +306,7 @@ public class RoomHotel extends AppCompatActivity  {
             }
         });
 
+
         onDateSetListener1 =new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -309,6 +322,10 @@ public class RoomHotel extends AppCompatActivity  {
                 nDialogDate2.setClickable(true);
             }
         };
+
+
+
+
 
         onDateSetListener2 =new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -535,5 +552,6 @@ public class RoomHotel extends AppCompatActivity  {
         return currentmaxDate.getTime();
 
     }
+
 
 }

@@ -354,9 +354,10 @@ public class DetailResidence extends AppCompatActivity {
                 final Query productRef = FirebaseDatabase.getInstance().getReference().child("Reservation Chambre").orderByChild("pid").equalTo(productPID);
 
                 productRef.addValueEventListener(new ValueEventListener() {
+
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        /*
                         for (DataSnapshot sn : snapshot.getChildren())
                         {
 
@@ -377,6 +378,10 @@ public class DetailResidence extends AppCompatActivity {
 
 
                         }
+
+                        */
+
+
                         datePickerDialog.getDatePicker().setMinDate(currentmaxDate.getTime());
 
                     }

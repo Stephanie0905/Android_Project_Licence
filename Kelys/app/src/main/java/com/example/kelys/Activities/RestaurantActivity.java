@@ -345,7 +345,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 productRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        /*
                         for (DataSnapshot sn : snapshot.getChildren())
                         {
 
@@ -366,6 +366,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
 
                         }
+                        */
                         datePickerDialog.getDatePicker().setMinDate(currentmaxDate.getTime());
 
                     }
