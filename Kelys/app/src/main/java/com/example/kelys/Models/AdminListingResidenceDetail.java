@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -54,6 +55,7 @@ public class AdminListingResidenceDetail extends AppCompatActivity {
     private Uri ImageUri;
     private ProgressDialog loadingBar;
     private String productRandomKey, downloadImageURI, oldresidName, oldDescription, oldPrice, oldCategorie ;
+    private int oldCategorieId ;
     Spinner spinner;
     private DatabaseReference ProductsRef,categ_resid_ref;
     private StorageReference ProductImageRef;
@@ -85,6 +87,11 @@ public class AdminListingResidenceDetail extends AppCompatActivity {
         params.y = -20;
 
         getWindow().setAttributes(params);
+
+        ProductImageRef = FirebaseStorage.getInstance().getReference().child("Images des Residences");
+        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Residence");
+
+        loadingBar = new ProgressDialog(this);
 
 
         textNom = (EditText) findViewById(R.id.txt2_resid);
@@ -138,10 +145,17 @@ public class AdminListingResidenceDetail extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             final List<String> CategResidList = new ArrayList<String>();
+                            int compteur = 0;
                             for (DataSnapshot sn : snapshot.getChildren())
                             {
                                 CategResidList.add(sn.child("lib_categ_resid").getValue(String.class));
 
+                                if (sn.child("lib_categ_resid").getValue(String.class).equals(oldCategorie))
+                                {
+                                    oldCategorieId = compteur;
+                                }
+
+                                compteur++;
 
                             }
 
@@ -158,6 +172,7 @@ public class AdminListingResidenceDetail extends AppCompatActivity {
                             };
                             //hotelAdapter.notifyDataSetChanged();
                             spinner.setAdapter(categresidAdapter);
+                            spinner.setSelection(oldCategorieId);
 
                         }
 

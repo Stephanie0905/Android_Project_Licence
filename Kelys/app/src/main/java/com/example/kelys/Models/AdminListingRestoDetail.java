@@ -57,6 +57,7 @@ public class AdminListingRestoDetail extends AppCompatActivity {
     private Uri ImageUri;
     private ProgressDialog loadingBar;
     private String productRandomKey, downloadImageURI, oldRestoName, oldDescription, oldPrice, oldCategorie ;
+    private int oldCategorieId ;
     Spinner spinner;
     private DatabaseReference ProductsRef,categ_Resto_ref;
     private StorageReference ProductImageRef;
@@ -150,9 +151,17 @@ public class AdminListingRestoDetail extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             final List<String> CategRestoList = new ArrayList<String>();
+                            int compteur = 0;
                             for (DataSnapshot sn : snapshot.getChildren())
                             {
                                 CategRestoList.add(sn.child("lib_categ_resto").getValue(String.class));
+
+                                if (sn.child("lib_categ_resto").getValue(String.class).equals(oldCategorie))
+                                {
+                                    oldCategorieId = compteur;
+                                }
+
+                                compteur++;
 
 
                             }
@@ -170,6 +179,7 @@ public class AdminListingRestoDetail extends AppCompatActivity {
                             };
                             //hotelAdapter.notifyDataSetChanged();
                             spinner.setAdapter(categrestoAdapter);
+                            spinner.setSelection(oldCategorieId);
 
                         }
 
