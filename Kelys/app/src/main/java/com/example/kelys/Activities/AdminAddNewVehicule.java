@@ -64,6 +64,9 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
     List<String> optionChekedList;
 
 
+    boolean[] checkedoptionArray = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,58 +351,105 @@ public class AdminAddNewVehicule extends AppCompatActivity implements AdapterVie
                 builder.setTitle("Selectionne les options");
 
 
-                final boolean[] checkedoptionArray = new boolean[optionL.size()];
-
-
-                for (int i = 0; i < checkedoptionArray.length; i++)
+                if (checkedoptionArray == null)
                 {
-                    if (i == 0)
+                    checkedoptionArray = new boolean[optionL.size()];
+
+
+                    for (int i = 0; i < checkedoptionArray.length; i++)
                     {
-                        checkedoptionArray[i] = true;
-                    }
+                        if (i == 0)
+                        {
+                            checkedoptionArray[i] = true;
+                        }
 
-                    else
-                    {
-                        checkedoptionArray[i] = false;
-                    }
-                }
-
-                //set multichoice
-                String[] optionArray = null;
-                optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
-                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkedoptionArray[which] = isChecked;
-
-                        String currentItem = optionL.get(which);
-                        // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        optionselected.setText("Vos choix sont: \n");
-                        for (int i = 0; i<checkedoptionArray.length; i++){
-                            boolean checked = checkedoptionArray[i];
-
-                            if (checked){
-                                // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
-                                optionChekedList.add(optionL.get(i));
-                            }
+                        else
+                        {
+                            checkedoptionArray[i] = false;
                         }
                     }
-                });
 
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    //set multichoice
+                    String[] optionArray = null;
+                    optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                    // store checked options
+                    //List<String> checkedOptionsList = new ArrayList<>();
+                    builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            checkedoptionArray[which] = isChecked;
 
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                            String currentItem = optionL.get(which);
+                            // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            optionselected.setText("Vos choix sont: \n");
+                            for (int i = 0; i<checkedoptionArray.length; i++){
+                                boolean checked = checkedoptionArray[i];
+
+                                if (checked){
+                                    // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                    optionChekedList.add(optionL.get(i));
+                                }
+                            }
+                        }
+                    });
+
+                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                else {
+                    //set multichoice
+                    String[] optionArray = null;
+                    optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                    // store checked options
+                    //List<String> checkedOptionsList = new ArrayList<>();
+                    builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            checkedoptionArray[which] = isChecked;
+
+                            String currentItem = optionL.get(which);
+                            // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            optionselected.setText("Vos choix sont: \n");
+                            for (int i = 0; i<checkedoptionArray.length; i++){
+                                boolean checked = checkedoptionArray[i];
+
+                                if (checked){
+                                    // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                    optionChekedList.add(optionL.get(i));
+                                }
+                            }
+                        }
+                    });
+
+                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
 
             }
 

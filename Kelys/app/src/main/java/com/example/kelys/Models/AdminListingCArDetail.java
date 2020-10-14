@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.kelys.Activities.AdminAddNewVehicule;
 import com.example.kelys.Adapters.RoomAdapter;
 import com.example.kelys.R;
+import com.google.android.gms.internal.firebase_auth.zzla;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,7 +47,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminListingCArDetail extends AppCompatActivity {
 
@@ -62,10 +65,12 @@ public class AdminListingCArDetail extends AppCompatActivity {
     ImageView imageView;
     Spinner spinner;
     private Query CarQuery;
-    private DatabaseReference ProductsRef,categ_car_ref,option_ref;
+    private DatabaseReference ProductsRef,categ_car_ref;
     private StorageReference ProductImageRef;
     List<String> optionList;
     List<String> optionChekedList;
+
+    boolean[] checkedoptionArray = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,8 @@ public class AdminListingCArDetail extends AppCompatActivity {
         setContentView(R.layout.activity_admin_listing_c_ar_detail);
         ProductImageRef = FirebaseStorage.getInstance().getReference().child("Images des Vehicules");
         ProductsRef = FirebaseDatabase.getInstance().getReference().child("Vehicule");
+
+        optionList =new ArrayList<>();
 
         btn_close = (TextView) findViewById(R.id.menu_icone);
         btn_close.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +106,8 @@ public class AdminListingCArDetail extends AppCompatActivity {
 
 
         textNom = (EditText) findViewById(R.id.txt2);
-        textPrice = (EditText) findViewById(R.id.txt3);
-        textDesc = (EditText) findViewById(R.id.txt4);
+        textPrice = (EditText) findViewById(R.id.txt4);
+        textDesc = (EditText) findViewById(R.id.txt3);
         spinner = (Spinner) findViewById(R.id.spinner_detail_car);
         imageView = (ImageView) findViewById(R.id.service_img);
         updatecar = (Button) findViewById(R.id.update_service);
@@ -287,8 +294,27 @@ public class AdminListingCArDetail extends AppCompatActivity {
         ProductsRef.child(productRandomKey).child("image").setValue(downloadImageURI);
         ProductsRef.child(productRandomKey).child("price").setValue(Price);
         ProductsRef.child(productRandomKey).child("pname").setValue(PName);
-        ProductsRef.child(productRandomKey).child("hotelName").setValue(saveSpinner1);
-        ProductsRef.child(productRandomKey).child("detail_room").setValue(saveSpinner);
+
+        //List<String> selectedOptions = new ArrayList<>();
+        HashMap<String,Object> selectedOptions = new HashMap<>();
+        int compteurOption = 0;
+
+        //enregistrer les options
+        for (int i = 0; i < checkedoptionArray.length; i++)
+        {
+            if (checkedoptionArray[i] == true)
+            {
+               // optionList;
+                //selectedOptions.add(optionList.get(i));
+                compteurOption++;
+                selectedOptions.put("option "+compteurOption,optionList.get(i));
+
+
+            }
+        }
+        ProductsRef.child(productRandomKey).child("options").removeValue();
+        ProductsRef.child(productRandomKey).child("options").setValue(selectedOptions);
+        ProductsRef.child(productRandomKey).child("type_car").setValue(saveSpinner);
 
         Intent intent = new Intent(AdminListingCArDetail.this, ListingVehicule.class);
         startActivity(intent);
@@ -304,6 +330,8 @@ public class AdminListingCArDetail extends AppCompatActivity {
         startActivityForResult(galleryIntent, GalleryPick);
     }
 
+
+
     private void DefineOptionList() {
         AlertDialog.Builder builder = new AlertDialog.Builder(AdminListingCArDetail.this);
 
@@ -316,6 +344,7 @@ public class AdminListingCArDetail extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot sn : snapshot.getChildren())
                 {
+                    optionList.add(sn.child("lib").getValue(String.class));
                     optionL.add(sn.child("lib").getValue(String.class));
                 }
 
@@ -324,102 +353,153 @@ public class AdminListingCArDetail extends AppCompatActivity {
                 builder.setTitle("Selectionne les options");
 
 
-                final boolean[] checkedoptionArray = new boolean[optionL.size()];
-
-                /*
-
-                for (int i = 0; i < checkedoptionArray.length; i++)
+                if (checkedoptionArray == null)
                 {
-                    if (i == 0)
-                    {
-                        checkedoptionArray[i] = true;
-                    }
+                    checkedoptionArray = new boolean[optionL.size()];
 
-                    else
-                    {
-                        checkedoptionArray[i] = false;
-                    }
-                }
 
-                */
 
-                //set multichoice
-                String[] optionArray = null;
-                optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
-                builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkedoptionArray[which] = isChecked;
 
-                        String currentItem = optionL.get(which);
-                        // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    // A REVOIR CI-DESOUS
+                    String[] optionArray = null;
+                    optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                    String[] finalOptionArray = optionArray;
+                    String uid = getIntent().getStringExtra("uid");
+                    Query CarQ = FirebaseDatabase.getInstance().getReference().child("Vehicule").orderByChild("pid").equalTo(uid);
+                    String[] finalOptionArray1 = optionArray;
+                    CarQ.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        optionselected.setText("Vos choix sont: \n");
-                        for (int i = 0; i<checkedoptionArray.length; i++){
-                            boolean checked = checkedoptionArray[i];
 
-                            if (checked){
-                                // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
-                                optionChekedList.add(optionL.get(i));
+                            for (DataSnapshot sn : snapshot.getChildren())
+                            {
+
+
+                                Modelvehicule opt =  sn.getValue(Modelvehicule.class);
+                                Map<String, Object> currentOptions = opt.getOptions();
+
+                                for (Map.Entry<String, Object> cu : currentOptions.entrySet())
+                                {
+                                    for (int i = 0; i < finalOptionArray1.length; i++)
+                                    {
+                                        if (cu.getValue().toString().equals(finalOptionArray1[i]))
+                                        {
+                                            checkedoptionArray[i] = true;
+                                        }
+                                    }
+                                }
+
+
+
+                                Log.d("OPT VEHICULE", opt.toString());
+
+                                /*
+                                for (int i = 0; i< opt.getOptions().size(); i++)
+                                {
+                                    for (int j = 0; j < finalOptionArray.length; j++)
+                                    {
+                                        if (opt.getOptions().get(i).equals(finalOptionArray[j]))
+                                        {
+                                            checkedoptionArray[j] = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                */
                             }
                         }
-                    }
-                });
 
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
 
+                    // A REVOIR CI-DESSUS
 
-                // A REVOIR CI-DESOUS
-                /*
-                String[] finalOptionArray = optionArray;
-                String uid = getIntent().getStringExtra("uid");
-                Query CarQ = FirebaseDatabase.getInstance().getReference().child("Vehicule").orderByChild("pid").equalTo(uid);
-                CarQ.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //set multichoice
 
 
-                        for (DataSnapshot sn : snapshot.getChildren())
-                        {
+                    // store checked options
+                    //List<String> checkedOptionsList = new ArrayList<>();
+                    builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            checkedoptionArray[which] = isChecked;
 
-                            ModelOption opt =  sn.getValue(ModelOption.class);;
+                            String currentItem = optionL.get(which);
+                            // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                            //Log.d("nOM VEHICULE", String.valueOf(opt.getOptions()));
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            optionselected.setText("Vos choix sont: \n");
+                            for (int i = 0; i<checkedoptionArray.length; i++){
+                                boolean checked = checkedoptionArray[i];
 
-                            for (int i = 0; i< opt.getOptions().size(); i++)
-                            {
-                                for (int j = 0; j < finalOptionArray.length; j++)
-                                {
-                                    if (opt.getOptions().get(i).equals(finalOptionArray[j]))
-                                    {
-                                        checkedoptionArray[j] = true;
-                                        break;
-                                    }
+                                if (checked){
+                                    // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                    optionChekedList.add(optionL.get(i));
                                 }
                             }
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
-                */
-                // A REVOIR CI-DESSUS
+                        }
+                    });
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                else {
+                    //set multichoice
+                    String[] optionArray = null;
+                    optionArray = (String[]) optionL.toArray(new String[optionL.size()]);
+                    // store checked options
+                    //List<String> checkedOptionsList = new ArrayList<>();
+                    builder.setMultiChoiceItems(optionArray, checkedoptionArray, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            checkedoptionArray[which] = isChecked;
+
+                            String currentItem = optionL.get(which);
+                            // Toast.makeText(AdminAddNewVehicule.this, currentItem +" " + isChecked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            optionselected.setText("Vos choix sont: \n");
+                            for (int i = 0; i<checkedoptionArray.length; i++){
+                                boolean checked = checkedoptionArray[i];
+
+                                if (checked){
+                                    // optionselected.setText(optionselected.getText() + optionList.get(i) + "\n");
+                                    optionChekedList.add(optionL.get(i));
+                                }
+                            }
+                        }
+                    });
+
+                    builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
 
             }
 
@@ -434,10 +514,9 @@ public class AdminListingCArDetail extends AppCompatActivity {
 
     }
 
-    private void getVehiculeOptions()
-    {
 
-    }
+
+
 
 }
 

@@ -21,6 +21,13 @@ public class ModelOption {
         this.options = options;
     }
 
+    @Override
+    public String toString() {
+        return "ModelOption{" +
+                "options=" + options +
+                '}';
+    }
+
     /*
     public List<String> getOptions() {
         return  this.options;

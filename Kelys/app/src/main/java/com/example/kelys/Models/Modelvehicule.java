@@ -1,17 +1,20 @@
 package com.example.kelys.Models;
 
+import java.util.Map;
+
 public class Modelvehicule {
 
     private String pname, description, price, image, category, pid, date, time,type_car;
 
     // liste des options ajoutes par joe
-    private  ModelOption options;
+    //private  ModelOption options;
+    private Map<String, Object> options;
 
     public Modelvehicule() {
 
     }
 
-    public Modelvehicule(String pname, String description, String price, String image, String category, String pid, String date, String time,ModelOption options, String type_car) {
+    public Modelvehicule(String pname, String description, String price, String image, String category, String pid, String date, String time,Map<String, Object> options, String type_car) {
         this.pname = pname;
         this.description = description;
         this.price = price;
@@ -23,15 +26,26 @@ public class Modelvehicule {
         this.type_car = type_car;
 
         // liste des options ajoutes par joe
-        this.options.setOptions(options.getOptions());
+        //this.options.setOptions(options.getOptions());
+        this.options = options;
     }
 
+    /*
     public ModelOption getOptions() {
         return this.options;
     }
 
     public  void setOptions(ModelOption newOptions) {
         this.options = newOptions;
+    }
+    */
+
+    public Map<String, Object> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Map<String, Object> options) {
+        this.options = options;
     }
 
     public String getPname() {
@@ -104,5 +118,21 @@ public class Modelvehicule {
 
     public void setType_car(String type_car) {
         this.type_car = type_car;
+    }
+
+    @Override
+    public String toString() {
+        return "Modelvehicule{" +
+                "pname='" + pname + '\'' +
+                ", description='" + description + '\'' +
+                ", price='" + price + '\'' +
+                ", image='" + image + '\'' +
+                ", category='" + category + '\'' +
+                ", pid='" + pid + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", type_car='" + type_car + '\'' +
+                ", options=" + options.toString() +
+                '}';
     }
 }
