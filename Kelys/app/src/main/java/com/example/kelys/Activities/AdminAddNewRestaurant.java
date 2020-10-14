@@ -64,6 +64,7 @@ public class AdminAddNewRestaurant extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_admin_add_new_restaurant);
         CategoryName = getIntent().getExtras().get("Categorie").toString();
 
+
         ProductImageRef = FirebaseStorage.getInstance().getReference().child("Images des Restaurants");
         ProductsRef = FirebaseDatabase.getInstance().getReference().child("Restaurant");
 
