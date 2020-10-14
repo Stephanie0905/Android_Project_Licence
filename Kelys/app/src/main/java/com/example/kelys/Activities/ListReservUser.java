@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kelys.JavaMail.JavaMailAPI;
 import com.example.kelys.Models.HotelActivity;
 import com.example.kelys.Models.ModelOrders;
 import com.example.kelys.Models.Residences;
@@ -32,9 +33,14 @@ import com.example.kelys.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class ListReservUser extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -302,4 +308,6 @@ public class ListReservUser extends AppCompatActivity implements NavigationView.
         intent.putExtra("statut", statut);
         startActivity(intent);
     }
+
+
 }

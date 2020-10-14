@@ -1,5 +1,6 @@
 package com.example.kelys.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -21,12 +22,16 @@ import com.example.kelys.Models.ModelOrders;
 import com.example.kelys.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class UserReservConsultActivity extends AppCompatActivity {
 
@@ -121,6 +126,52 @@ public class UserReservConsultActivity extends AppCompatActivity {
     }
 
 
+    // la fonction ci-dessous doit être appelée lorsque la suppression a été effectuée
+
+    private void sendEmailTotheAdmin()
+    {
+
+
+        String subject = "Une réservation vient d'être supprimée par "+user_name;
+        String message = "Bonjour,\n"+
+                "Voici les détails de la réservation supprimée : \n"
+                +"Date de réservation initiale : "+user_date_reserv +"\n\n"
+                +"Nom du produit : "+prod_id +"\n\n"
+                +"Le coût du produit était de : "+prod_price +"\n\n"
+                +"Nom du demandeur : "+ user_name +"\n\n"
+                +"Adresse mail du demandeur : "+user_email +"\n\n"
+                +"N° du demandeur : "+user_phoneNo +"\n\n"
+                +"Cordialement,\n\n"+
+                "Kelys IT Team"
+                ;
+
+
+
+
+        DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
+
+        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren())
+                {
+                    //envoi du mail
+                    JavaMailAPI javaMailAPI = new JavaMailAPI(UserReservConsultActivity.this, sn.child("email").getValue(String.class),subject, message);
+                    //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                    javaMailAPI.execute();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+    }
 
 
 

@@ -147,7 +147,9 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             else
                 {
                     //Adding message
-                    mm.setText(mMessage);
+                    //mm.setText(mMessage);
+                    mm.setContent(mMessage,"text/html");
+
                     //Sending email
                     Transport.send(mm, mm.getAllRecipients());
                 }

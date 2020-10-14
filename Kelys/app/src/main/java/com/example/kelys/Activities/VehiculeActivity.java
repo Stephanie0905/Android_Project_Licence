@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kelys.Helpers.ConfirmFinalOrderActivity;
+import com.example.kelys.JavaMail.JavaMailAPI;
 import com.example.kelys.Models.DetailResidence;
 import com.example.kelys.Models.Modelvehicule;
 import com.example.kelys.Models.PopularHotel;
@@ -468,6 +469,8 @@ public class VehiculeActivity extends AppCompatActivity {
                     }
                 });
 
+        // envoi de mails aux admins
+        sendEmailTotheAdmin(cartMap);
 
     }
 
@@ -503,6 +506,52 @@ public class VehiculeActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
+    }
+
+    private void sendEmailTotheAdmin(HashMap<String,Object>h)
+    {
+
+
+        String subject = "Nouvelle réservation de véhicule effectuée via l'application effectuée par "+h.get("name user");
+        String message = "Bonjour,\n"+
+                "Une nouvelle réservation de véhicule vient d'être effectuée. \n"+
+                "Ci-dessous les détails de la réservation : \n\n"
+                +"Date de création de la réservation : "+h.get("id") +"\n\n"
+                +"Nom du produit : "+h.get("pname") +"\n\n"
+                +"Coût du produit : "+h.get("price") +"\n\n"
+                +"Réservation du : "+h.get("date1") +" au "+h.get("date2")+"\n\n"
+                +"Nom du demandeur : "+ h.get("name user") +"\n\n"
+                +"Adresse mail du demandeur : "+h.get("mail user") +"\n\n"
+                +"N° du demandeur : "+h.get("phone user") +"\n\n"
+                +"Cordialement,\n\n"+
+                "Kelys IT Team"
+                ;
+
+
+
+
+        DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
+
+        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren())
+                {
+                    //envoi du mail
+                    JavaMailAPI javaMailAPI = new JavaMailAPI(VehiculeActivity.this, sn.child("email").getValue(String.class),subject, message);
+                    //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                    javaMailAPI.execute();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
     }

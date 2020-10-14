@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kelys.Helpers.ConfirmFinalOrderActivity;
+import com.example.kelys.JavaMail.JavaMailAPI;
 import com.example.kelys.Models.DetailResidence;
 import com.example.kelys.Models.ModelRestaurant;
 import com.example.kelys.Models.PopularHotel;
@@ -273,6 +274,9 @@ public class RestaurantActivity extends AppCompatActivity {
                     }
                 });
 
+        //envoi de mail
+        sendEmailTotheAdmin(cartMap);
+
 
     }
 
@@ -459,5 +463,51 @@ public class RestaurantActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendEmailTotheAdmin(HashMap<String,Object>h)
+    {
+
+
+        String subject = "Nouvelle réservation de restaurant effectuée via l'application effectuée par "+h.get("name user");
+        String message = "Bonjour,\n"+
+                "Une nouvelle réservation de restaurant vient d'être effectuée. \n"+
+                "Ci-dessous les détails de la réservation : \n\n"
+                +"Date de création de la réservation : "+h.get("id") +"\n\n"
+                +"Nom du produit : "+h.get("pname") +"\n\n"
+                +"Coût du produit : "+h.get("price") +"\n\n"
+                +"Réservation pour le :"+h.get("date") +"\n\n"
+                +"Nom du demandeur : "+ h.get("name user") +"\n\n"
+                +"Adresse mail du demandeur : "+h.get("mail user") +"\n\n"
+                +"N° du demandeur : "+h.get("phone user") +"\n\n"
+                +"Cordialement,\n\n"+
+                "<b>Kelys IT Team</b>"
+                ;
+
+
+        DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
+
+        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sn : snapshot.getChildren())
+                {
+                    //envoi du mail
+                    JavaMailAPI javaMailAPI = new JavaMailAPI(RestaurantActivity.this, sn.child("email").getValue(String.class),subject, message);
+                    //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                    javaMailAPI.execute();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
     }
 }
