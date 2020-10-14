@@ -116,7 +116,7 @@ public class AdminAddNewResidence extends AppCompatActivity implements AdapterVi
 
 
         inputproductdescription = (EditText) findViewById(R.id.product_resid_description);
-        inputproductname = (EditText) findViewById(R.id.product_resid_description);
+        inputproductname = (EditText) findViewById(R.id.product_resid_name);
         inputproducttprice = (EditText) findViewById(R.id.product_resid_price);
         addnewproduct = (Button) findViewById(R.id.add_new_resid);
         inputproductimage = (ImageView) findViewById(R.id.select_resid_img);
