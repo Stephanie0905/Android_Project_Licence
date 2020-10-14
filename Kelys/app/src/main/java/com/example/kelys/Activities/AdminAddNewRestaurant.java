@@ -199,7 +199,7 @@ public class AdminAddNewRestaurant extends AppCompatActivity implements AdapterV
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime = currentTime.format(calendar.getTime());
 
-        productRandomKey = saveCurrentDate + saveCurrentTime;
+        productRandomKey = saveCurrentDate +"-" + saveCurrentTime;
 
         final StorageReference filePath = ProductImageRef.child(ImageUri.getLastPathSegment() + productRandomKey + ".jpg");
 
@@ -257,6 +257,7 @@ public class AdminAddNewRestaurant extends AppCompatActivity implements AdapterV
         productMap.put("price", Price);
         productMap.put("pname", PName);
         productMap.put("type_resto", saveSpinner);
+        //productMap.put("SecondPid", productRandomKey);
 
 
         ProductsRef.child(productRandomKey).updateChildren(productMap)

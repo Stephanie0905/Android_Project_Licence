@@ -148,7 +148,7 @@ public class RoomHotel extends AppCompatActivity  {
                                 SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
                                 saveCurrentTime = currentTime.format(calendar.getTime());
 
-                                productID = saveCurrentDate + saveCurrentTime;
+                                productID = saveCurrentDate + "-" + saveCurrentTime;
                                 saveDatainReservationTable();
                                 saveDatainFirebase();
                             }
