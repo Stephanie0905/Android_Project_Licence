@@ -171,10 +171,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/reg_btn_style"
                 android:fontFamily="@font/aclonica"
-                android:onClick="validation_reservation"
                 android:layout_marginBottom="20dp"
                 android:text="Confirmer la reservation"
-                android:textColor="#fff" />
+                android:textColor="#fff"/>
+                <!--android:onClick="validation_reservation" -->
+
 
             <Button
                 android:id="@+id/delete_reserv"

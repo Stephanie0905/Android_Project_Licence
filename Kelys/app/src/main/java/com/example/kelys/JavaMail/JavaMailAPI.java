@@ -3,13 +3,19 @@ package com.example.kelys.JavaMail;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.kelys.Activities.AdminUserReservActivity;
 import com.example.kelys.Activities.RegisterActivity;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -165,12 +171,29 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             else
                 {
 
-                    // ajout du logo
-                    String logoPath = "file:///android_asset/images/appicon.png";
-                    File logoFile = new File(this.mContext.getCacheDir()+"/images/appicon.png");
+                    //String[] imgPath = this.mContext.getAssets().list("images");
+                   // InputStream input = this.mContext.getAssets().open("images/"+imgPath[2]);
+
+                    InputStream input = this.mContext.getAssets().open("images/appicon.png");
+
+                    //Log.d("logo","images/"+imgPath[2]);
+
+                   Bitmap bm = BitmapFactory.decodeStream(input);
+
+                   //byte[] buffer = new byte[input.available()];
+                   //input.read(buffer);
+
+                    File targetLogo = new File(this.mContext.getFilesDir(),"logoFile.png");
+                    OutputStream outStream = new FileOutputStream(targetLogo);
+
+                    bm.compress(Bitmap.CompressFormat.PNG,100,outStream);
+                    outStream.flush();
+                    outStream.close();
+
+
                     BodyPart messageBodyPart = new MimeBodyPart();
-                    //DataSource fds = new FileDataSource(logoPath);
-                    DataSource fds = new FileDataSource(logoFile);
+                    DataSource fds = new FileDataSource(targetLogo);
+                    //DataSource fds = new FileDataSource(logoFile);
                     messageBodyPart.setDataHandler(new DataHandler(fds));
                     messageBodyPart.setHeader("Content-ID", "<image>");
 
@@ -205,7 +228,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
 //            mm.setContent(multipart);
 
-        } catch (MessagingException e) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
         }
         return null;

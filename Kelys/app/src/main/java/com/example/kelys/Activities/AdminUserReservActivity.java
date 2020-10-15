@@ -97,64 +97,84 @@ public class AdminUserReservActivity extends AppCompatActivity {
         //showalldata
         //showAllUserData();
 
+        if (statut.equals("Validé"))
+        {
+            // masquer les boutons de réservations et de suppression
+            delete_reserv.setVisibility(View.GONE);
+            confirm_reserv.setVisibility(View.GONE);
 
-        delete_reserv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //boite de dialogue pour confirmer la reservation
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AdminUserReservActivity.this);
-                builder.setCancelable(true);
-                builder.setTitle("Suppression de la réservation");
-                builder.setMessage("Voulez-vous supprimer cette réservation ?");
-                builder.setPositiveButton("Confirmer",
-                        new DialogInterface.OnClickListener() {
+        }
+
+        else
+            {
+                delete_reserv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //boite de dialogue pour confirmer la reservation
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AdminUserReservActivity.this);
+                        builder.setCancelable(true);
+                        builder.setTitle("Suppression de la réservation");
+                        builder.setMessage("Voulez-vous supprimer cette réservation ?");
+                        builder.setPositiveButton("Confirmer",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        delete_reservation(user_date_reserv);
+
+                                        switch (categorie)
+                                        {
+                                            case "Chambre":
+                                                delete_reservation("Chambre",user_date_reserv);
+                                                annulation_reservation();
+                                                break;
+
+                                            case "Residence":
+                                                delete_reservation("Residence",user_date_reserv);
+                                                annulation_reservation();
+                                                break;
+
+                                            case "Restaurant":
+                                                delete_reservation("Restaurant",user_date_reserv);
+                                                annulation_reservation();
+                                                break;
+                                            case "Vehicule":
+                                                delete_reservation("Vehicule",user_date_reserv);
+                                                annulation_reservation();
+                                                break;
+
+                                        }
+
+
+
+                                        Intent intent = new Intent(getApplicationContext(), AdminNewOrderActivity.class);
+                                        intent.putExtra("statut",statut);
+                                        startActivity(intent);
+
+                                    }
+
+                                });
+                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                delete_reservation(user_date_reserv);
-
-                                switch (categorie)
-                                {
-                                    case "Chambre":
-                                        delete_reservation("Chambre",user_date_reserv);
-                                        annulation_reservation();
-                                        break;
-
-                                    case "Residence":
-                                        delete_reservation("Residence",user_date_reserv);
-                                        annulation_reservation();
-                                        break;
-
-                                    case "Restaurant":
-                                        delete_reservation("Restaurant",user_date_reserv);
-                                        annulation_reservation();
-                                        break;
-                                    case "Vehicule":
-                                        delete_reservation("Vehicule",user_date_reserv);
-                                        annulation_reservation();
-                                        break;
-
-                                }
-
-
-
-                                Intent intent = new Intent(getApplicationContext(), AdminNewOrderActivity.class);
-                                intent.putExtra("statut",statut);
-                                startActivity(intent);
-
                             }
-
                         });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                confirm_reserv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        validation_reservation();
+                    }
+                });
             }
-        });
+
+
+
 
 
     }
@@ -305,7 +325,7 @@ public class AdminUserReservActivity extends AppCompatActivity {
     }
 
 
-    public void validation_reservation(View view) {
+    public void validation_reservation() {
 
         String targetPdf = generateinvoice();
 
