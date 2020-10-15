@@ -374,7 +374,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">Vous venez de vous inscrire sur l'application mobile de Kely's Tours</span>
+    <span class="preheader">La réservation de l'utilisateur <b>{username}</b> vient d'être confirmée.</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -390,34 +390,35 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Bonjour {username},</p>
-                        <p>Vous venez de vous inscrire sur l'application mobile de Kely's Tours.</p>
-                        <p>Avec l'application, vous pouvez faire des réservations sur les produits suivants :
-                        <ul>
-                          <li>Les Hotels </li>
-                          <li>Les Chambres</li>
-                          <li>Les Résidences</li>
-                          <li>Les Véhicules</li>
-                        </ul>
-                        </p>
-                        <p>Voici les informations principales de votre compte :</p>
+                        <p>Bonjour Monsieur/Madame {username},</p>
+                        <p>Nous venons de prendre acte de votre réservation. <br/>
+                          Veuillez par ce mail prendre acte de l'enregistrement de votre réservation. <br/>
+                          Nous vous recontacterons pour plus de détails.</p>
+
+                        <p>Voici les détails de la réservation <b>confirmée</b> :</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="styled-table">
                           <thead>
                             <tr>
-                              <th>Username</th>
-                              <th>Nom Complet</th>
-                              <th>Adresse Mail</th>
-                              <th>Numéro de Téléphone</th>
-                              <th>Mot de passe</th>
+                              <th>Type de produit</th>
+                              <th>Nom du produit</th>
+                              <th>Coût du produit</th>
+                              <th>Dates de réservations</th>
+                              <th>Nom du demandeur</th>
+                              <th>Adresse mail du demandeur</th>
+                              <th>N° du demandeur</th>
+                              <th>Statut</th>
                             </tr>
                           </thead>
                           <tbody>
                           <tr class="active-row">
+                            <td>{categorie}</td>
+                            <td>{nomProduit}</td>
+                            <td>{cout}</td>
+                            <td>{date}</td>
                             <td>{username}</td>
-                            <td>{name}</td>
                             <td>{email}</td>
                             <td>{phone}</td>
-                            <td>{password}</td>
+                            <td><b>Validé</b></td>
                           </tr>
                           </tbody>
                         </table>

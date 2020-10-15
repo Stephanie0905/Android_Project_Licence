@@ -2,6 +2,7 @@ package com.example.kelys.JavaMail;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -123,20 +124,27 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             //Adding receiver
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(mEmail));
             //Adding subject
-            mm.setSubject(mSubject);
+            mm.setSubject(mSubject,"UTF-8");
+
+
 
             Multipart multipart = new MimeMultipart();
             if (this.mFileName != null)
             {
 
                 BodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText(mMessage);
+                //messageBodyPart.setText(mMessage);
+                messageBodyPart.setContent(mMessage,"text/html; charset=utf-8");
+
+                multipart.addBodyPart(messageBodyPart);
 
                 messageBodyPart = new MimeBodyPart();
                 DataSource fds = new FileDataSource(this.mFileName);
                 messageBodyPart.setDataHandler(new DataHandler(fds));
                 messageBodyPart.setFileName(this.mFileName);
                 multipart.addBodyPart(messageBodyPart);
+
+
                 //mm.setText(mMessage);
                 mm.setContent(multipart);
                 //Sending email
@@ -146,9 +154,9 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
             else
                 {
-                    //Adding message
-                    //mm.setText(mMessage);
-                    mm.setContent(mMessage,"text/html");
+
+                    mm.setContent(mMessage,"text/html; charset=utf-8");
+
 
                     //Sending email
                     Transport.send(mm, mm.getAllRecipients());
@@ -182,6 +190,10 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void setHeader(MimeMessage mm) {
+
     }
 
 

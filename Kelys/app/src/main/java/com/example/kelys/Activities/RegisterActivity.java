@@ -197,16 +197,54 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    private String getMailContent(String f) throws IOException {
+
+
+        InputStream is = getAssets().open(f);
+        int size = is.available();
+
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+
+        String str = new String(buffer);
+        //str = str.replace("old string", "new string");
+
+        return str;
+
+    }
+
+
+
 
     private void sendEmailInscription(String username,String email) {
 
-        String message = "Félicitaions "+username+" !!\n Vous venez de vous inscrire sur l'application mobile de Kely's Tours\n"+
-                       "Cordialement,\n\n Kelys Team Development";
-        String subject = "Inscription sur l'application Kely's Tours par "+username;
+        // cette fonction utilise la fonction getMailContent
 
-        //envoi du mail
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this, email,subject, message);
-        javaMailAPI.execute();
+        String MaskedEmail = email.substring(0,2) +"****"+email.substring(email.length() - 3);
+        String MaskedPassword = regPassword.getEditText().getText().toString().substring(0,1)+"****"+regPassword.getEditText().getText().toString().substring(regPassword.getEditText().getText().toString().length() - 1);
+
+        // masquer l'email et le mot de passe
+
+        String subject = "Inscription sur l'application Kely's Tours par "+username;
+        String message = null;
+        try {
+            // chargement du template mail
+            message = getMailContent("Inscription.html");
+            message = message.replace("{username}", username);
+            message = message.replace("{name}", regName.getEditText().getText().toString());
+            message = message.replace("{email}", MaskedEmail);
+            message = message.replace("{phone}", regPhoneNo.getEditText().getText().toString());
+            message = message.replace("{password}", MaskedPassword);
+
+
+            //envoi du mail
+            JavaMailAPI javaMailAPI = new JavaMailAPI(RegisterActivity.this, email,subject, message);
+            javaMailAPI.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
     }

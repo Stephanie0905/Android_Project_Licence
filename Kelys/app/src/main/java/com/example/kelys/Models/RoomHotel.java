@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kelys.Activities.RegisterActivity;
 import com.example.kelys.Activities.RestaurantActivity;
 import com.example.kelys.Adapters.RoomAdapter;
 import com.example.kelys.Helpers.ConfirmFinalOrderActivity;
@@ -37,6 +38,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -469,7 +472,7 @@ public class RoomHotel extends AppCompatActivity  {
         cartMap.put("name_user", saveUser.getText().toString());
         cartMap.put("phone_user", saveUserPhone.getText().toString());
         cartMap.put("mail_user", saveUserMail.getText().toString());
-        cartMap.put("categorie", "Chambre");
+        cartMap.put("categorie", "Room");
         cartMap.put("statut", "En attente");
         cartMap.put("mail_user_statut", saveUserMail.getText().toString()+"_En attente");
 
@@ -557,11 +560,30 @@ public class RoomHotel extends AppCompatActivity  {
 
     }
 
+    private String getMailContent(String f) throws IOException {
+
+
+        InputStream is = getAssets().open(f);
+        int size = is.available();
+
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+
+        String str = new String(buffer);
+        //str = str.replace("old string", "new string");
+
+        return str;
+
+    }
+
     private void sendEmailTotheAdmin(HashMap<String,Object>h)
     {
 
+        String categorie = "chambre";
 
-        String subject = "Nouvelle réservation de chambre effectuée via l'application effectuée par "+h.get("name user");
+        String subject = "Nouvelle réservation de "+categorie+"  effectuée via l'application effectuée par "+h.get("name user");
+        /*
         String message = "Bonjour,\n"+
                 "Une nouvelle réservation de chambre vient d'être effectuée. \n"+
                 "Ci-dessous les détails de la réservation : \n\n"
@@ -576,28 +598,54 @@ public class RoomHotel extends AppCompatActivity  {
                 "Kelys IT Team"
                 ;
 
+*/
+
+
+        try {
+            // chargement du template mail
+            String message = getMailContent("MailReservation.html");
+            message = message.replace("{username}",h.get("name user").toString());
+            message = message.replace("{categorie}",categorie);
+            message = message.replace("{nomProduit}",h.get("pname").toString());
+            message = message.replace("{cout}",h.get("price").toString());
+            message = message.replace("{date1}",h.get("date1").toString());
+            message = message.replace("{date2}",h.get("date2").toString());
+            message = message.replace("{email}",h.get("mail user").toString());
+            message = message.replace("{phone}",h.get("phone user").toString());
+
+            DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
+
+            String finalMessage = message;
+            adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot sn : snapshot.getChildren())
+                    {
+                        //envoi du mail
+                        JavaMailAPI javaMailAPI = new JavaMailAPI(RoomHotel.this, sn.child("email").getValue(String.class),subject, finalMessage);
+                        //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                        javaMailAPI.execute();
 
 
 
-        DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
 
-        adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot sn : snapshot.getChildren())
-                {
-                    //envoi du mail
-                    JavaMailAPI javaMailAPI = new JavaMailAPI(RoomHotel.this, sn.child("email").getValue(String.class),subject, message);
-                    //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
-                    javaMailAPI.execute();
+
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
 
 
 

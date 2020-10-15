@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AdminUserReservActivity extends AppCompatActivity {
 
@@ -285,13 +286,63 @@ public class AdminUserReservActivity extends AppCompatActivity {
 
     }
 
+
+    private String getMailContent(String f) throws IOException {
+
+
+        InputStream is = getAssets().open(f);
+        int size = is.available();
+
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+
+        String str = new String(buffer);
+        //str = str.replace("old string", "new string");
+
+        return str;
+
+    }
+
+
     public void validation_reservation(View view) {
 
         String targetPdf = generateinvoice();
 
         String objet_mail = "Confirmation de la réservation de "+user_name+" du "+user_date_reserv;
-        String message = "Bonjour Monsieur/Madame " + user_name+ ".\nNous venons de prendre acte de votre réservation. \nVeuillez par ce mail prendre acte de l'enregistrement de votre réservation. Nous vous recontacterons pour plus de détails. \nCordialement, \n\nKelys Team Development.";
-        sendMailWithAttachment(user_name,user_email,objet_mail,message, targetPdf);
+        //String message = "Bonjour Monsieur/Madame " + user_name+ ".\nNous venons de prendre acte de votre réservation. \nVeuillez par ce mail prendre acte de l'enregistrement de votre réservation. Nous vous recontacterons pour plus de détails. \nCordialement, \n\nKelys Team Development.";
+
+        String message = null;
+        try {
+            // chargement du template mail
+            message = getMailContent("MailConfirmationReservation.html");
+            message = message.replace("{categorie}", categorie);
+            message = message.replace("{nomProduit}", prod_id);
+            message = message.replace("{cout}", prod_price);
+            message = message.replace("{email}", user_email);
+            message = message.replace("{phone}", user_phoneNo);
+
+
+            if (categorie.equals("Restaurant"))
+            {
+                message = message.replace("{date}", "Le "+date1_reserv);
+            }
+
+            else
+                {
+                    message = message.replace("{date}", "Du "+date1_reserv+" au "+date2_reserv);
+                }
+
+
+
+            //envoi du mail
+            sendMailWithAttachment(user_name,user_email,objet_mail,message, targetPdf);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         setStatut("Validé");
 
@@ -306,8 +357,42 @@ public class AdminUserReservActivity extends AppCompatActivity {
 
     public void annulation_reservation() {
         String objet_mail = "Annulation de la réservation de "+user_name+" du "+user_date_reserv;
-        String message = "Bonjour Monsieur/Madame" + user_name+ ".\nVotre réservation a été annulée par notre équipe. \nCordialement, \n\nKelys Team Development.";
-        sendMail(user_name,user_email,objet_mail,message);
+        //String message = "Bonjour Monsieur/Madame" + user_name+ ".\nVotre réservation a été annulée par notre équipe. \nCordialement, \n\nKelys Team Development.";
+
+
+
+
+        //String message = "Bonjour Monsieur/Madame " + user_name+ ".\nNous venons de prendre acte de votre réservation. \nVeuillez par ce mail prendre acte de l'enregistrement de votre réservation. Nous vous recontacterons pour plus de détails. \nCordialement, \n\nKelys Team Development.";
+
+        String message = null;
+        try {
+            // chargement du template mail
+            message = getMailContent("MailAnnulationReservation.html");
+            message = message.replace("{categorie}", categorie);
+            message = message.replace("{nomProduit}", prod_id);
+            message = message.replace("{cout}", prod_price);
+            message = message.replace("{email}", user_email);
+            message = message.replace("{phone}", user_phoneNo);
+
+
+            if (categorie.equals("Restaurant"))
+            {
+                message = message.replace("{date}", "Le "+date1_reserv);
+            }
+
+            else
+            {
+                message = message.replace("{date}", "Du "+date1_reserv+" au "+date2_reserv);
+            }
+
+
+
+            //envoi du mail
+            sendMail(user_name,user_email,objet_mail,message);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }

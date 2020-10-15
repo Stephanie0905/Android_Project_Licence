@@ -38,6 +38,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -465,8 +467,27 @@ public class RestaurantActivity extends AppCompatActivity {
         });
     }
 
+    private String getMailContent(String f) throws IOException {
+
+
+        InputStream is = getAssets().open(f);
+        int size = is.available();
+
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+
+        String str = new String(buffer);
+        //str = str.replace("old string", "new string");
+
+        return str;
+
+    }
+
     private void sendEmailTotheAdmin(HashMap<String,Object>h)
     {
+
+        /*
 
 
         String subject = "Nouvelle réservation de restaurant effectuée via l'application effectuée par "+h.get("name user");
@@ -507,7 +528,50 @@ public class RestaurantActivity extends AppCompatActivity {
 
 
 
+*/
 
+        String categorie = "Restaurant";
+
+        String subject = "Nouvelle réservation de "+categorie+"  effectuée via l'application effectuée par "+h.get("name user");
+
+
+
+        try {
+            // chargement du template mail
+            String message = getMailContent("MailReservationRestaurant.html");
+            message = message.replace("{username}",h.get("name user").toString());
+            message = message.replace("{categorie}",categorie);
+            message = message.replace("{nomProduit}",h.get("pname").toString());
+            message = message.replace("{cout}",h.get("price").toString());
+            message = message.replace("{date}",h.get("date").toString());
+            message = message.replace("{email}",h.get("mail user").toString());
+            message = message.replace("{phone}",h.get("phone user").toString());
+
+            DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("admin");
+
+            String finalMessage = message;
+            adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot sn : snapshot.getChildren())
+                    {
+                        //envoi du mail
+                        JavaMailAPI javaMailAPI = new JavaMailAPI(RestaurantActivity.this, sn.child("email").getValue(String.class),subject, finalMessage);
+                        //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                        javaMailAPI.execute();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

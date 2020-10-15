@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,18 +23,16 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kelys.Adapters.FeaturedAdapter;
 import com.example.kelys.Adapters.FeaturedHelperClass;
+import com.example.kelys.JavaMail.JavaMailAPI;
 import com.example.kelys.Models.HotelActivity;
 import com.example.kelys.Models.Residences;
 import com.example.kelys.Models.Restaurants;
 import com.example.kelys.Models.Vehicules;
 import com.example.kelys.R;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,13 +63,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public static  final String fileName = "login";
     public static  final String UsernamePreference = "Username";
 
+
+    // TEST DE RECUPERATION DE CONTENU HTML
+    String  html;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         sharedPreferences = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-
 
 
         if (sharedPreferences.contains(UsernamePreference))
@@ -183,6 +183,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
+
+
 
         menuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,5 +348,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     //}
+
+
+
 
 }

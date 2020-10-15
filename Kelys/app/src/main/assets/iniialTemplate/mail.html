@@ -10,47 +10,6 @@
       ------------------------------------- */
       
       /*All the styling goes here*/
-
-
-/*style du tableau des informations ci-dessous*/
-      .styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.styled-table thead tr {
-    background-color: #0e74ab;
-    color: #ffffff;
-    text-align: left;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-}
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #0e74ab;
-}
-
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #0e74ab;
-}
-
-/*style du tableau des informations en haut*/
       
       img {
         border: none;
@@ -374,7 +333,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">Vous venez de vous inscrire sur l'application mobile de Kely's Tours</span>
+    <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -390,39 +349,25 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>Bonjour {username},</p>
-                        <p>Vous venez de vous inscrire sur l'application mobile de Kely's Tours.</p>
-                        <p>Avec l'application, vous pouvez faire des réservations sur les produits suivants :
-                        <ul>
-                          <li>Les Hotels </li>
-                          <li>Les Chambres</li>
-                          <li>Les Résidences</li>
-                          <li>Les Véhicules</li>
-                        </ul>
-                        </p>
-                        <p>Voici les informations principales de votre compte :</p>
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="styled-table">
-                          <thead>
-                            <tr>
-                              <th>Username</th>
-                              <th>Nom Complet</th>
-                              <th>Adresse Mail</th>
-                              <th>Numéro de Téléphone</th>
-                              <th>Mot de passe</th>
-                            </tr>
-                          </thead>
+                        <p>Hi there,</p>
+                        <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p>
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
-                          <tr class="active-row">
-                            <td>{username}</td>
-                            <td>{name}</td>
-                            <td>{email}</td>
-                            <td>{phone}</td>
-                            <td>{password}</td>
-                          </tr>
+                            <tr>
+                              <td align="left">
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                  <tbody>
+                                    <tr>
+                                      <td> <a href="http://htmlemail.io" target="_blank">Call To Action</a> </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
-                        <p>L'application a été développée par l'équipe IT de Kelys. Voici leur GitHub pour plus de détails <a href="https://github.com/Stephanie0905" target="_blank">GitHub</a> </p>
-                        <p>Cordialement, <br/> <br/> <b>Kelys  Development Team</b></p>
+                        <p>This is a really simple email template. Its sole purpose is to get the recipient to click the button with no distractions.</p>
+                        <p>Good luck! Hope it works.</p>
                       </td>
                     </tr>
                   </table>
