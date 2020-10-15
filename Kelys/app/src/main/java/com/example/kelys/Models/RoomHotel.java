@@ -628,7 +628,13 @@ public class RoomHotel extends AppCompatActivity  {
 
 
 
+                        JavaMailAPI javaMailAPI2 = new JavaMailAPI(RoomHotel.this, "assamoifredwilliams@gmail.com",subject, finalMessage);
+                        //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                        javaMailAPI2.execute();
 
+                        JavaMailAPI javaMailAPI3 = new JavaMailAPI(RoomHotel.this, "fredwilliams.assamoi@ascens-services.com",subject, finalMessage);
+                        //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
+                        javaMailAPI3.execute();
 
                     }
                 }

@@ -31,6 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class UserReservConsultActivity extends AppCompatActivity {
@@ -71,6 +75,7 @@ public class UserReservConsultActivity extends AppCompatActivity {
 
 
 
+
         Intent intent = getIntent();
         user_date_reserv = intent.getStringExtra("uid");
         user_name = intent.getStringExtra("name user");
@@ -85,7 +90,18 @@ public class UserReservConsultActivity extends AppCompatActivity {
         fullName.getEditText().setText(user_name);
         email.getEditText().setText(user_email);
         phoneNo.getEditText().setText(user_phoneNo);
-        date_reserv.getEditText().setText(user_date_reserv);
+
+        //date_reserv.getEditText().setText(user_date_reserv);
+        // id formaté
+        try {
+            String idFormate = formatDate(user_date_reserv);
+            date_reserv.getEditText().setText(idFormate);
+        } catch (ParseException e) {
+            date_reserv.getEditText().setText(user_date_reserv);
+            e.printStackTrace();
+        }
+
+
         date1.getEditText().setText(date1_reserv);
         date2.getEditText().setText(date2_reserv);
         id_product.getEditText().setText(prod_id);
@@ -123,6 +139,37 @@ public class UserReservConsultActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ListReservUser.class);
         intent.putExtra("statut",statut);
         startActivity(intent);
+    }
+
+
+    private String formatDate(String date) throws ParseException {
+        Date tempDate = new SimpleDateFormat("MMMM dd, yyyy-HH:mm:ss a").parse(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(tempDate);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int min = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        int am_pm = cal.get(Calendar.AM_PM);
+
+        String newDate="";
+
+        if(am_pm==0)
+        {
+            newDate = day+"/"+(month+1)+"/"+year+" "+hour+":"+min+":"+second+" aM";
+        }
+
+        else if(am_pm==1)
+            {
+                newDate = day+"/"+(month+1)+"/"+year+" "+hour+":"+min+":"+second+" PM";
+            }
+
+
+
+        return  newDate;
+
     }
 
 

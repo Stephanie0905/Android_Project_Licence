@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.kelys.Activities.AdminUserReservActivity;
 import com.example.kelys.Activities.RegisterActivity;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -49,7 +50,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
     private ProgressDialog mProgressDialog;
 
-    //Constructor
+    ////constructeur pour envoi de mail sans pièce jointe
     public JavaMailAPI(Context mContext, String mEmail, String mSubject, String mMessage) {
         this.mContext = mContext;
         this.mEmail = mEmail;
@@ -58,6 +59,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
         this.mFileName = null;
     }
 
+    //constructeur pour envoi de mail avec pièce jointe
     public JavaMailAPI(Context mContext, String mEmail, String mSubject, String mMessage, String fileName) {
         this.mContext = mContext;
         this.mEmail = mEmail;
@@ -131,8 +133,16 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             Multipart multipart = new MimeMultipart();
             if (this.mFileName != null)
             {
+                //String logoPath = "file:///android_asset/images/appicon.png";
+                //String logoPath = "//android_asset/images/appicon.png";
+                File logoFile = new File(this.mContext.getCacheDir()+"/images/appicon.png");
 
+                // envoi de mail avec pièce jointe
                 BodyPart messageBodyPart = new MimeBodyPart();
+
+                DataSource fdslogo = new FileDataSource(logoFile);
+                messageBodyPart.setDataHandler(new DataHandler(fdslogo));
+                messageBodyPart.setHeader("Content-ID", "<image>");
                 //messageBodyPart.setText(mMessage);
                 messageBodyPart.setContent(mMessage,"text/html; charset=utf-8");
 
@@ -154,6 +164,15 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
             else
                 {
+
+                    // ajout du logo
+                    String logoPath = "file:///android_asset/images/appicon.png";
+                    File logoFile = new File(this.mContext.getCacheDir()+"/images/appicon.png");
+                    BodyPart messageBodyPart = new MimeBodyPart();
+                    //DataSource fds = new FileDataSource(logoPath);
+                    DataSource fds = new FileDataSource(logoFile);
+                    messageBodyPart.setDataHandler(new DataHandler(fds));
+                    messageBodyPart.setHeader("Content-ID", "<image>");
 
                     mm.setContent(mMessage,"text/html; charset=utf-8");
 
@@ -192,9 +211,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
         return null;
     }
 
-    private void setHeader(MimeMessage mm) {
 
-    }
 
 
 }
