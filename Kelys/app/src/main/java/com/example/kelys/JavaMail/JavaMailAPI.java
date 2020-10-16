@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -174,30 +175,37 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
                     //String[] imgPath = this.mContext.getAssets().list("images");
                    // InputStream input = this.mContext.getAssets().open("images/"+imgPath[2]);
 
-                    InputStream input = this.mContext.getAssets().open("images/appicon.png");
+                    //Uri imageUri = Uri.fromFile(new File("file:///android_asset/images/appicon.png"));
+
+                    //InputStream input = this.mContext.getAssets().open("images/appicon.png");
 
                     //Log.d("logo","images/"+imgPath[2]);
 
-                   Bitmap bm = BitmapFactory.decodeStream(input);
+                   //Bitmap bm = BitmapFactory.decodeStream(input);
 
                    //byte[] buffer = new byte[input.available()];
                    //input.read(buffer);
 
-                    File targetLogo = new File(this.mContext.getFilesDir(),"logoFile.png");
-                    OutputStream outStream = new FileOutputStream(targetLogo);
+                    //File targetLogo = new File(this.mContext.getFilesDir(),"logoFile.png");
+                    //OutputStream outStream = new FileOutputStream(targetLogo);
 
-                    bm.compress(Bitmap.CompressFormat.PNG,100,outStream);
-                    outStream.flush();
-                    outStream.close();
+                    //bm.compress(Bitmap.CompressFormat.PNG,100,outStream);
+                    //outStream.flush();
+                    //outStream.close();
 
 
                     BodyPart messageBodyPart = new MimeBodyPart();
-                    DataSource fds = new FileDataSource(targetLogo);
+                    messageBodyPart.setContent(mMessage,"text/html; charset=utf-8");
+                    multipart.addBodyPart(messageBodyPart);
+
+                    messageBodyPart = new MimeBodyPart();
+                    DataSource fds = new FileDataSource(new File("file:///android_asset/images/appicon.png"));
                     //DataSource fds = new FileDataSource(logoFile);
                     messageBodyPart.setDataHandler(new DataHandler(fds));
                     messageBodyPart.setHeader("Content-ID", "<image>");
 
-                    mm.setContent(mMessage,"text/html; charset=utf-8");
+                    mm.setContent(multipart,"text/html; charset=utf-8");
+                    //mm.setContent(mMessage,"text/html; charset=utf-8");
 
 
                     //Sending email
@@ -228,7 +236,7 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
 
 //            mm.setContent(multipart);
 
-        } catch (MessagingException | IOException e) {
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
         return null;
