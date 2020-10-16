@@ -214,12 +214,10 @@ public class ListingVehicule extends AppCompatActivity implements NavigationView
                                                     String carName = null;
                                                     for(DataSnapshot sn : snapshot.getChildren())
                                                     {
-                                                        // obtenir le nom de l'hotel
+
                                                         carName = sn.child("pname").getValue().toString();
 
-                                                        // supprimer les reservaiions des chambres
 
-                                                        sn.getRef().removeValue();
                                                         sn.getRef().removeValue();
 
 
@@ -227,6 +225,45 @@ public class ListingVehicule extends AppCompatActivity implements NavigationView
                                                     Toast.makeText(ListingVehicule.this,"Véhicule Supprimé " ,Toast.LENGTH_SHORT).show();
                                                     //loadingBar.dismiss();
 
+                                                    Query ReservQuery = FirebaseDatabase.getInstance().getReference().child("Reservation Vehicule").orderByChild("pname").equalTo(carName);
+
+                                                    ReservQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            for (DataSnapshot sn : snapshot.getChildren())
+                                                            {
+
+                                                                sn.getRef().removeValue();
+                                                            }
+
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
+                                                    Query GlobalReservQuery = FirebaseDatabase.getInstance().getReference().child("Reservations").orderByChild("Nom_produit").equalTo(carName);
+
+                                                    GlobalReservQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            for (DataSnapshot sn : snapshot.getChildren())
+                                                            {
+                                                                // supprimer les reservaiions des chambres dans la table Reservations
+                                                                sn.getRef().removeValue();
+                                                            }
+
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
 
 
                                                 }

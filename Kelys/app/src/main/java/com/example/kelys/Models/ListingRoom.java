@@ -228,9 +228,11 @@ public class ListingRoom extends AppCompatActivity implements NavigationView.OnN
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                             for (DataSnapshot sn : snapshot.getChildren())
                                                             {
-                                                                // supprimer les reservaiions des chambres
+                                                                // supprimer les reservaiions des chambres dans la table Rervation Chambre
                                                                 sn.getRef().removeValue();
                                                             }
+
+
                                                         }
 
                                                         @Override
@@ -239,6 +241,25 @@ public class ListingRoom extends AppCompatActivity implements NavigationView.OnN
                                                         }
                                                     });
 
+                                                    Query GlobalReservQuery = FirebaseDatabase.getInstance().getReference().child("Reservations").orderByChild("Nom_produit").equalTo(roomName);
+
+                                                    GlobalReservQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            for (DataSnapshot sn : snapshot.getChildren())
+                                                            {
+                                                                // supprimer les reservaiions des chambres dans la table Reservations
+                                                                sn.getRef().removeValue();
+                                                            }
+
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
 
                                                 }
 
