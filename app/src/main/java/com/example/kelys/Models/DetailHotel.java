@@ -72,7 +72,7 @@ public class DetailHotel extends AppCompatActivity {
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_detail_hotel);
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 

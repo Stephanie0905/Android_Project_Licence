@@ -12,8 +12,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,17 +26,23 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kelys.Adapters.FeaturedAdapter;
 import com.example.kelys.Adapters.FeaturedHelperClass;
+import com.example.kelys.Models.DetailHotel;
 import com.example.kelys.Models.HotelActivity;
+import com.example.kelys.Models.ModelHotel;
 import com.example.kelys.Models.Residences;
 import com.example.kelys.Models.Restaurants;
 import com.example.kelys.Models.Vehicules;
 import com.example.kelys.R;
+import com.example.kelys.ViewHolder.HotelViewHolder;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Button logout;
     TextView name,intro;
     TextView welcome_username;
+    private DatabaseReference ProductRef;
 
     //Drawer menu
     DrawerLayout drawerLayout;
@@ -61,6 +70,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //FirebaseUser currentUser;
 
     // preferences partagees
+    private String ActivityCaller;
 
     SharedPreferences sharedPreferences;
     public static  final String fileName = "login";
@@ -82,6 +92,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             //bouton connexion et deconnexion
             logout = findViewById(R.id.nav_logout);
+            ProductRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
+            ActivityCaller = getIntent().getStringExtra("ActivityCaller");
 
 
             link1 = findViewById(R.id.link_hotel);
@@ -317,7 +329,65 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         featuredRecycler.setHasFixedSize(true);
         featuredRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
 
-        ArrayList<FeaturedHelperClass> featuredLocations = new ArrayList<>();
+        FirebaseRecyclerOptions<ModelHotel> options =
+                new FirebaseRecyclerOptions.Builder<ModelHotel>()
+                        .setQuery(ProductRef, ModelHotel.class)
+                        .build();
+        //Log.d("OPTIONS", );
+
+        FirebaseRecyclerAdapter<ModelHotel, FeaturedAdapter> adapter =
+                new FirebaseRecyclerAdapter<ModelHotel, FeaturedAdapter>(options) {
+
+                    @Override
+                    protected void onBindViewHolder(@NonNull final FeaturedAdapter holder, int i, @NonNull final ModelHotel model) {
+                        holder.txtname.setText(model.getPname());
+                        holder.txtdescription.setText(model.getDescription());
+                        holder.ratingBar.setRating(Float.parseFloat(String.valueOf(model.getRate_hotel().charAt(0))));
+
+                        holder.ratingBar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                holder.ratingBar.setIsIndicator(true);
+                                holder.ratingBar.setEnabled(false);
+
+                            }
+                        });
+
+                        Picasso.get().load(model.getImage()).into(holder.imageView);
+
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(HomeActivity.this, DetailHotel.class);
+                                intent.putExtra("pid", model.getPid());
+                                intent.putExtra("pname", model.getPname());
+                                if(ActivityCaller == null)
+                                {
+
+                                }
+                                else if(ActivityCaller.equals("HomeActivity"))
+                                {
+                                    intent.putExtra("ActivityCaller", "HomeActivity");
+
+                                }
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                    @NonNull
+                    @Override
+                    public FeaturedAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.featured_card_design,parent,false);
+                        FeaturedAdapter holder = new FeaturedAdapter(view);
+                        return holder;
+                    }
+                };
+        featuredRecycler.setAdapter(adapter);
+        adapter.startListening();
+
+
+        /*ArrayList<FeaturedHelperClass> featuredLocations = new ArrayList<>();
 
         featuredLocations.add(new FeaturedHelperClass(R.drawable.resto_img,"Lounge Resto","hbfvhslk bvhldfkv,kghjldfksjv fhdjskhfcjk"));
         featuredLocations.add(new FeaturedHelperClass(R.drawable.ecologe,"Residence Ecologe","hbfvhslk bvhldfkv,kghjldfksjv fhdjskhfcjk"));
@@ -326,7 +396,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         adapter = new FeaturedAdapter(featuredLocations);
-        featuredRecycler.setAdapter(adapter);
+        featuredRecycler.setAdapter(adapter);*/
 
 
     }

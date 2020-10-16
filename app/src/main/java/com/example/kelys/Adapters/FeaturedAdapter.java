@@ -4,63 +4,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kelys.R;
+import com.example.kelys.ViewHolder.ItemClickListener;
 
 import java.util.ArrayList;
 
-public class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.FeaturedViewHolder> {
+public class FeaturedAdapter extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    ArrayList<FeaturedHelperClass> featuredLocations;
+    public TextView txtname, txtdescription;
+    public ImageView imageView;
+    public ItemClickListener listener;
+    public RatingBar ratingBar;
 
-    public FeaturedAdapter(ArrayList<FeaturedHelperClass> featuredLocations) {
-        this.featuredLocations = featuredLocations;
+
+    public FeaturedAdapter(View itemView) {
+        super(itemView);
+
+        imageView = (ImageView) itemView.findViewById(R.id.featured_img);
+        txtname = (TextView) itemView.findViewById(R.id.featured_title);
+        txtdescription = (TextView) itemView.findViewById(R.id.featured_title);
+        ratingBar = (RatingBar) itemView.findViewById(R.id.star_feature);    }
+
+    public void setItemClickListener(ItemClickListener listener){
+        this.listener = listener;
     }
 
-    @NonNull
-    @Override
-    public FeaturedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.featured_card_design,parent,false);
-        FeaturedViewHolder featuredViewHolder = new FeaturedViewHolder(view);
-
-        return featuredViewHolder;
+    public void onClick(View v) {
+        listener.onClick(v, getAdapterPosition(),false);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull FeaturedViewHolder holder, int position) {
-
-        FeaturedHelperClass featuredHelperClass = featuredLocations.get(position);
-
-        holder.image.setImageResource(featuredHelperClass.getImage());
-        holder.title.setText(featuredHelperClass.getTitle());
-        holder.desc.setText(featuredHelperClass.getDescription());
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return featuredLocations.size();
-    }
-
-    public static class FeaturedViewHolder extends RecyclerView.ViewHolder{
-
-        ImageView image;
-        TextView title, desc;
-
-        public FeaturedViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            //hooks
-            image = itemView.findViewById(R.id.featured_img);
-            title = itemView.findViewById(R.id.featured_title);
-            desc = itemView.findViewById(R.id.featured_desc);
-
-
-        }
-    }
 }
