@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "886750818589",
+    "firebase_url": "https://kelys-f9609.firebaseio.com",
+    "project_id": "kelys-f9609",
+    "storage_bucket": "kelys-f9609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886750818589:android:fff2ea54e13580c538f1f4",
+        "android_client_info": {
+          "package_name": "com.example.kelys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886750818589-spjd7o373hb8lgupc5pibt832mvtlh3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApT6AYYQoxzlGXItr_vNOIRkHt-kaIlIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886750818589-spjd7o373hb8lgupc5pibt832mvtlh3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

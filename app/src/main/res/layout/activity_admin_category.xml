@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_stat"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerlayout_categ"
+    tools:context=".Activities.AdminCategoryActivity">
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nv_categ_admin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:theme="@style/navigationTheme"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/menu_admin"/>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/menu_categ_admin"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/ic_menu" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/slogan_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Ajout de Nouveaux Services"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+
+    </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linear1_category_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/slogan_category"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="120dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:background="@drawable/gradient1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/categ_hotel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/hotel" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="120dp">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:background="@drawable/gradient2"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/categ_residence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/resident" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2_category_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear1_category_layout"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="120dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="10dp">
+
+                 <LinearLayout
+                android:background="#D0FF9800"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/categ_restaurant"
+                    android:layout_width="match_parent"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cafe" />
+            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="120dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="#2196F3"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/categ_vehicule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/car" />
+            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear3_category_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear2_category_layout"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="20dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_height="120dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="#FF9800"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/categ_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/hotel_icon" />
+
+            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

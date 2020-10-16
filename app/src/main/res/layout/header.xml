@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/side_nav_bar"
+    android:gravity="bottom"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/nav_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aclonica"
+        android:text="@string/nav_header_subtitle"
+       android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/nav_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bilbo"
+        android:text="@string/nav_header_title"
+        android:textColor="#000"
+        android:layout_above="@id/nav_slogan"
+        android:textSize="45sp"/>
+
+    <ImageView
+        android:id="@+id/nav_app_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/icone_mainactivity"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+
+
+
+
+</RelativeLayout>

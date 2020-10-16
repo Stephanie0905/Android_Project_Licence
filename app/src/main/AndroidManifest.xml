@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.kelys">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".Models.AdminListingRestoDetail"
+            android:theme="@style/AppTheme.PopUp"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
+        <activity android:name=".Models.AdminListingCArDetail"
+            android:theme="@style/AppTheme.PopUp"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.AdminListingResidenceDetail"
+            android:theme="@style/AppTheme.PopUp"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.AdminListingRoomDetail"
+            android:theme="@style/AppTheme.PopUp"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Models.AdminListingServiceDetail"
+            android:theme="@style/AppTheme.PopUp" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activities.ListReservUser" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activities.GraphiqueDashboard" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Models.ListingVehicule" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.ListingResidence" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.ListingRestaurant" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.ListingRoom" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Models.ListingHotel" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Activities.UserDetailReservation" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activities.UserReservConsultActivity" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Activities.UserReservationActivity" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Activities.AdminUserReservActivity" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activities.AdminNewOrderActivity" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Models.DetailResidence" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Helpers.ConfirmFinalOrderActivity" android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppTheme.PopUp"/>
+        <activity android:name=".ViewHolder.ProductDetailActivity" android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activities.AdminHome" />
+        <activity
+            android:name=".Activities.AdminAddNewRoom"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AdminAddNewVehicule"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AdminAddNewRestaurant"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AdminAddNewResidence"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AdminAddNewHotel"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Models.RoomHotel" />
+        <activity android:name=".Activities.AdminCategoryActivity" />
+        <activity android:name=".Models.HotelActivity" />
+        <activity android:name=".Models.DetailHotel" />
+        <activity android:name=".Helpers.ForgotPassword" />
+        <activity android:name=".Activities.Compte" />
+        <activity android:name=".Activities.UserProfil" />
+        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.RestaurantActivity" />
+        <activity android:name=".Activities.VehiculeActivity" />
+        <activity android:name=".Models.Vehicules" />
+        <activity android:name=".Models.Restaurants" />
+        <activity android:name=".Models.Residences" />
+        <activity android:name=".Activities.AllCategories" />
+        <activity android:name=".Activities.HomeActivity" />
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/admin_home"
+            android:title="@string/home"
+            android:icon="@drawable/ic_menu"/>
+
+        <item
+            android:id="@+id/nav_all_categories"
+            android:title="Toutes les catégories"
+            android:icon="@drawable/menu_categories_icon"/>
+
+
+    </group>
+
+    <item android:title="Profil Administrateur">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/admin_login"
+                    android:title="@string/login"
+                    android:icon="@drawable/login_icon"/>
+
+                <item
+                    android:id="@+id/admin_logout"
+                    android:title="@string/logout"
+                    android:icon="@drawable/logout_icon"/>
+
+            </group>
+
+
+        </menu>
+
+    </item>
+
+    <item android:title="Liste des Services">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/list_hotel_admin"
+                    android:title="Liste des Hotels"
+                    />
+
+                <item
+                    android:id="@+id/list_room_admin"
+                    android:title="Liste des Chambres"
+                    />
+
+                <item
+                    android:id="@+id/list_car_admin"
+                    android:title="Liste des Véhicules"
+                    />
+
+                <item
+                    android:id="@+id/list_resto_admin"
+                    android:title="Liste des Restaurants"
+                    />
+
+                <item
+                    android:id="@+id/list_resid_admin"
+                    android:title="Liste des Résidences"
+                    />
+            </group>
+
+
+
+
+        </menu>
+
+    </item>
+
+    <item android:title="Liste des Réservations">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/list_reserv"
+                    android:title="En Attente / En Cours"
+                    />
+
+                <item
+                    android:id="@+id/list_reserv2"
+                    android:title="Validées"
+                    />
+            </group>
+
+
+
+
+        </menu>
+
+    </item>
+
+
+</menu>

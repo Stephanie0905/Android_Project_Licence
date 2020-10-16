@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.AdminAddNewHotel">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#00BCD4"
+            android:padding="20dp">
+
+
+            <ImageView
+                android:id="@+id/select_hotel_img"
+                android:layout_width="350dp"
+                android:layout_height="200dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_menu_camera"
+                android:layout_centerHorizontal="true"
+                />
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-80dp"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:hint="Type d'hotel: " />
+
+            <Spinner
+                android:id="@+id/spinner_hotel"
+                android:background="@drawable/spinner_design"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:gravity="center"
+                android:padding="20dp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="-10dp"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/product_hotel_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:padding="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="45dp"
+                android:background="@drawable/input_design"
+                android:hint="Entrez le nom du produit..."
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/product_hotel_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:padding="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="45dp"
+                android:background="@drawable/input_design"
+                android:hint="Description du produit..."
+                android:inputType="textMultiLine" />
+
+            <EditText
+                android:id="@+id/product_hotel_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:padding="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="45dp"
+                android:background="@drawable/input_design"
+                android:hint="Prix du produit..."
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/add_new_hotel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/product_room_price"
+                android:text="Ajouter"
+                android:padding="17dp"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
