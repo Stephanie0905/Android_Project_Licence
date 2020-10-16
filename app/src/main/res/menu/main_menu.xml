@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/home"
+            android:icon="@drawable/ic_menu"/>
+        <item
+            android:id="@+id/nav_all_categories"
+            android:title="Toutes les Catégories"
+            android:icon="@drawable/menu_categories_icon"/>
+
+    </group>
+
+    <item android:title="Profil">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_profile"
+                    android:title="@string/compte"
+                    android:icon="@drawable/ic_person_black_24dp"/>
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="@string/logout"
+                    android:icon="@drawable/logout_icon"/>
+
+            </group>
+
+
+        </menu>
+
+    </item>
+
+    <item android:title="Catégorie">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_restaurant"
+                    android:title="@string/restaurants"
+                    android:icon="@drawable/restaurant_icon"/>
+                <item
+                    android:id="@+id/nav_hotel"
+                    android:title="@string/hotels"
+                    android:icon="@drawable/hotel_icon"/>
+                <item
+                    android:id="@+id/nav_residence"
+                    android:title="@string/residences"
+                    android:icon="@drawable/residence_icon"/>
+                <item
+                    android:id="@+id/nav_vehicule"
+                    android:title="@string/vehicules"
+                    android:icon="@drawable/car_icon"/>
+
+            </group>
+
+
+        </menu>
+
+    </item>
+    <item android:title="Statistique">
+        <menu>
+
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_stat"
+                    android:title="Statistique"
+                    android:icon="@drawable/ic_twotone_trending_up_24"/>
+
+            </group>
+
+
+        </menu>
+
+    </item>
+
+</menu>

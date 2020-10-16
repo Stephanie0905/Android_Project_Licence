@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Kelys</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Kely\'s Tours</string>
+    <string name="nav_header_subtitle">Réservez vos endroits \n préferés en un seul clic</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Strings for dashboard
+
+    //categories
+    <string name="hotels">Hotels</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="residences">Residences</string>
+    <string name="vehicules">Vehicules</string>
+
+    //titles and description
+    <string name="featured_locations">All Features Locations</string>
+    <string name="featured_locations_description">All the location that are featured and have the top demand in town!</string>
+    <string name="most_viewed_locations">Most Viewed</string>
+    <string name="categories">Categories</string>
+    <string name="view_all">View All</string>
+    <string name="search_text">View All</string>
+    <string name="logo_name">Tours By Kelys</string>
+    <string name="add_missing_place">Ajouter un lieu</string>
+    <string name="all_categories">Toutes les caegories</string>
+    <string name="home">Accueil</string>
+    <string name="login">Connexion</string>
+    <string name="compte">Compte Utilisateur</string>
+    <string name="logout">Déconnexion</string>
+    <string name="rateus">Notez nous</string>
+    <string name="share">Partager</string>
+
+    <!-- FacebookActivity -->
+    <string name="facebook_app_id">616489998983381</string>
+    <string name="fb_login_protocol_scheme">fb616489998983381</string>
+
+
+</resources>

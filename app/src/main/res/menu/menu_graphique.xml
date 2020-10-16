@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    app:cnb_unselectedColor="#000"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/graph1"
+        android:title="Graphe1"
+        android:icon="@drawable/ic_twotone_trending_up_24"
+        app:cnb_backgroundColor="#D8F44336"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/graph2"
+        android:title="Graphe2"
+        android:icon="@drawable/ic_twotone_trending_up_24"
+        app:cnb_backgroundColor="#D8F44336"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/graph3"
+        android:title="Graphe3"
+        android:icon="@drawable/ic_twotone_trending_up_24"
+        app:cnb_backgroundColor="#D8F44336"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+</menu>
