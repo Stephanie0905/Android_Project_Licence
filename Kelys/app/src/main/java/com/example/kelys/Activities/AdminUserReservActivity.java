@@ -336,6 +336,7 @@ public class AdminUserReservActivity extends AppCompatActivity {
         try {
             // chargement du template mail
             message = getMailContent("MailConfirmationReservation.html");
+            message = message.replace("{username}",user_name);
             message = message.replace("{categorie}", categorie);
             message = message.replace("{nomProduit}", prod_id);
             message = message.replace("{cout}", prod_price);
@@ -357,6 +358,8 @@ public class AdminUserReservActivity extends AppCompatActivity {
 
             //envoi du mail
             sendMailWithAttachment(user_name,user_email,objet_mail,message, targetPdf);
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -140,30 +140,22 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             Multipart multipart = new MimeMultipart();
             if (this.mFileName != null)
             {
-                //String logoPath = "file:///android_asset/images/appicon.png";
-                //String logoPath = "//android_asset/images/appicon.png";
-                File logoFile = new File(this.mContext.getCacheDir()+"/images/appicon.png");
 
-                // envoi de mail avec pièce jointe
+
                 BodyPart messageBodyPart = new MimeBodyPart();
-
-                DataSource fdslogo = new FileDataSource(logoFile);
-                messageBodyPart.setDataHandler(new DataHandler(fdslogo));
-                messageBodyPart.setHeader("Content-ID", "<image>");
-                //messageBodyPart.setText(mMessage);
-                messageBodyPart.setContent(mMessage,"text/html; charset=utf-8");
-
-                multipart.addBodyPart(messageBodyPart);
-
-                messageBodyPart = new MimeBodyPart();
                 DataSource fds = new FileDataSource(this.mFileName);
                 messageBodyPart.setDataHandler(new DataHandler(fds));
                 messageBodyPart.setFileName(this.mFileName);
                 multipart.addBodyPart(messageBodyPart);
 
+                // le message
+                messageBodyPart = new MimeBodyPart();
+                messageBodyPart.setContent(mMessage,"text/html; charset=utf-8");
+                multipart.addBodyPart(messageBodyPart);
+
 
                 //mm.setText(mMessage);
-                mm.setContent(multipart);
+                mm.setContent(multipart,"text/html; charset=utf-8");
                 //Sending email
                 Transport.send(mm);
                 //messageBodyPart.setHeader("Content-ID","appicon");
@@ -172,26 +164,13 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
             else
                 {
 
-                    //String[] imgPath = this.mContext.getAssets().list("images");
-                   // InputStream input = this.mContext.getAssets().open("images/"+imgPath[2]);
-
-                    //Uri imageUri = Uri.fromFile(new File("file:///android_asset/images/appicon.png"));
-
-                    //InputStream input = this.mContext.getAssets().open("images/appicon.png");
-
-                    //Log.d("logo","images/"+imgPath[2]);
-
-                   //Bitmap bm = BitmapFactory.decodeStream(input);
-
-                   //byte[] buffer = new byte[input.available()];
-                   //input.read(buffer);
-
-                    //File targetLogo = new File(this.mContext.getFilesDir(),"logoFile.png");
-                    //OutputStream outStream = new FileOutputStream(targetLogo);
-
-                    //bm.compress(Bitmap.CompressFormat.PNG,100,outStream);
-                    //outStream.flush();
-                    //outStream.close();
+                    /* test
+                    File logoFile = new File(this.mContext.getExternalFilesDir(null).getAbsolutePath()+"/logo/"+"appicon.png");
+                    if (!logoFile.exists())
+                    {
+                        copyFile(this.mContext);
+                    }
+                     test */
 
 
                     BodyPart messageBodyPart = new MimeBodyPart();
@@ -199,10 +178,13 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
                     multipart.addBodyPart(messageBodyPart);
 
                     messageBodyPart = new MimeBodyPart();
-                    DataSource fds = new FileDataSource(new File("file:///android_asset/images/appicon.png"));
+
+                    //DataSource fds = new FileDataSource(new File("file:///android_asset/images/appicon.png"));
+
                     //DataSource fds = new FileDataSource(logoFile);
-                    messageBodyPart.setDataHandler(new DataHandler(fds));
-                    messageBodyPart.setHeader("Content-ID", "<image>");
+                    //messageBodyPart.setDataHandler(new DataHandler(fds));
+                    //messageBodyPart.setHeader("Content-ID", "<image>");
+                    //multipart.addBodyPart(messageBodyPart);
 
                     mm.setContent(multipart,"text/html; charset=utf-8");
                     //mm.setContent(mMessage,"text/html; charset=utf-8");
@@ -241,6 +223,24 @@ public class JavaMailAPI extends AsyncTask<Void,Void,Void>  {
         }
         return null;
     }
+
+
+    private void copyFile(Context context) {
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStream in = assetManager.open("appicon.png");
+            OutputStream out = new FileOutputStream(context.getExternalFilesDir(null).getAbsolutePath()+"/logo/"+"appicon.png");
+            byte[] buffer = new byte[1024];
+            int read = in.read(buffer);
+            while (read != -1) {
+                out.write(buffer, 0, read);
+                read = in.read(buffer);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
 
 
 

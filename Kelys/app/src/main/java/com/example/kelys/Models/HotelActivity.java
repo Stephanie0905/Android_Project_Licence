@@ -216,7 +216,7 @@ public class HotelActivity<adapter> extends AppCompatActivity implements Navigat
                                 Intent intent = new Intent(HotelActivity.this,DetailHotel.class);
                                 intent.putExtra("pid", model.getPid());
                                 intent.putExtra("pname", model.getPname());
-                                if(ActivityCaller == null)
+                                if(ActivityCaller.equals(""))
                                 {
 
                                 }

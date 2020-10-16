@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +31,12 @@ import com.example.kelys.Models.Restaurants;
 import com.example.kelys.Models.Vehicules;
 import com.example.kelys.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,8 +71,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public static  final String UsernamePreference = "Username";
 
 
-    // TEST DE RECUPERATION DE CONTENU HTML
-    String  html;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +159,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             //updateNavheader();
             navigationDrawer();
+
+
         }
 
 
@@ -348,6 +355,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     //}
+
+
+
 
 
 

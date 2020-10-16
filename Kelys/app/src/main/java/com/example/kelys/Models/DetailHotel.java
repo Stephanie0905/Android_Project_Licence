@@ -32,6 +32,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+
 public class DetailHotel extends AppCompatActivity {
 
     private DatabaseReference RoomRef;
@@ -72,7 +74,7 @@ public class DetailHotel extends AppCompatActivity {
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_detail_hotel);
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this,RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -140,7 +142,7 @@ public class DetailHotel extends AppCompatActivity {
                                 intent.putExtra("pid", model.getPid());
                                 intent.putExtra("HotelPid", productPID);
                                 intent.putExtra("HotelName", HotelName);
-                                if(ActivityCaller == null)
+                                if(ActivityCaller.equals(""))
                                 {
 
                                 }
@@ -165,9 +167,14 @@ public class DetailHotel extends AppCompatActivity {
 
                 };
 
+
+
+
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -176,7 +183,7 @@ public class DetailHotel extends AppCompatActivity {
     {
         super.onBackPressed();
 
-        if(ActivityCaller == null)
+        if(ActivityCaller.equals(""))
         {
             Intent intent = new Intent(DetailHotel.this,HotelActivity.class);
             startActivity(intent);

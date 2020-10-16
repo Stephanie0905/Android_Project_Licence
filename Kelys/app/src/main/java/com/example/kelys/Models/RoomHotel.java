@@ -430,7 +430,7 @@ public class RoomHotel extends AppCompatActivity  {
 
                             Toast.makeText(RoomHotel.this,"Réservation en cours...",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RoomHotel.this,ConfirmFinalOrderActivity.class);
-                            if(ActivityCaller == null)
+                            if(ActivityCaller.equals(""))
                             {
 
                             }
@@ -498,7 +498,7 @@ public class RoomHotel extends AppCompatActivity  {
     {
         super.onBackPressed();
 
-        if(ActivityCaller == null)
+        if(ActivityCaller.equals(""))
         {
             Intent intent = new Intent(RoomHotel.this,DetailHotel.class);
             intent.putExtra("pid", hotelPID);
@@ -628,13 +628,13 @@ public class RoomHotel extends AppCompatActivity  {
 
 
 
-                        JavaMailAPI javaMailAPI2 = new JavaMailAPI(RoomHotel.this, "assamoifredwilliams@gmail.com",subject, finalMessage);
+                        //JavaMailAPI javaMailAPI2 = new JavaMailAPI(RoomHotel.this, "assamoifredwilliams@gmail.com",subject, finalMessage);
                         //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
-                        javaMailAPI2.execute();
+                        //javaMailAPI2.execute();
 
-                        JavaMailAPI javaMailAPI3 = new JavaMailAPI(RoomHotel.this, "fredwilliams.assamoi@ascens-services.com",subject, finalMessage);
+                        //JavaMailAPI javaMailAPI3 = new JavaMailAPI(RoomHotel.this, "fredwilliams.assamoi@ascens-services.com",subject, finalMessage);
                         //Log.d("snchildemailgetValue",sn.child("email").getValue(String.class));
-                        javaMailAPI3.execute();
+                        //javaMailAPI3.execute();
 
                     }
                 }
